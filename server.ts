@@ -2,7 +2,6 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { env } from './app/helpers/env';
 import { start } from './app/config/db';
-import { runAlgorithm } from './app/controllers/Runs/runAlgo';
 import { userRouter } from './app/routes/user';
 import { configRouter } from './app/routes/config';
 import { runsRouter } from './app/routes/runs';
@@ -12,7 +11,6 @@ const PORT = env('PORT') || 8000
 
 const app = express()
 app.use(express.json());
-// app.use(bodyParser)
 app.use(cors())
 
 app.use('/api');
