@@ -51,4 +51,4 @@ const RunSchema = new Schema(
   }
 )
 
-export const RunModel = model('runModel', RunSchema, 'Run')
+export const RunModel = model('RunModel', RunSchema, 'RunModel')
