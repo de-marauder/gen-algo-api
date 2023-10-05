@@ -1,6 +1,6 @@
 import { RunModel } from "../../models/Run";
-import { AlgoResult, runAlgo } from "../../lib/runAlgo";
-import { Config } from "../../lib/Types/algo";
+import { runAlgo } from "../../lib/runAlgo";
+import { AlgoResult, Config } from "../../lib/Types/algo";
 import { SMRGeneticsAlgorithm } from "../../lib/Algorithm/SMR";
 
 export const runAlgorithm = async (configId: string, payload: Config, userid: string) => {
@@ -32,6 +32,7 @@ const buildResult = (data: SMRGeneticsAlgorithm, configId: string, timeTaken: st
     steamToCarbonRatio: data.population.population[0].traits.steamCarbonRatio,
     numberOfGenerationsRan: data.generations.length,
     stopCondition: data.stoppedBy,
+    error: data.population.population[0].error,
     timeTaken,
     userid
   };

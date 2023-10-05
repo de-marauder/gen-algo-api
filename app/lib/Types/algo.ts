@@ -1,3 +1,4 @@
+import { Stop } from '../Algorithm/SMR/types';
 
 export type ValidRunOptions = {
   config: string;
@@ -42,3 +43,18 @@ export type Config = {
   };
 };
 
+export type AlgoResult = {
+  config: string;
+  stopCondition: Stop // convergence, fitness or max gen_size
+  numberOfGenerationsRan: number;
+  pressure: number;
+  temperature: number;
+  steamToCarbonRatio: number;
+  outputH2: number;
+  outputH2O: number;
+  outputCO2: number;
+  outputCO: number;
+  outputCH4: number;
+  error: number;
+  timeTaken: string;
+}

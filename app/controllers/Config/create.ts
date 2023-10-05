@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import ErrorBoundary, { ErrorResponse } from "../../helpers/ErrorBoundary";
+import ErrorBoundarySync, { ErrorResponse } from "../../helpers/ErrorBoundarySync";
 import { TypeConfig } from "../../lib/Types/Config";
 import { ConfigModel } from "../../models/Config";
 import { TypeUser } from "../../lib/Types/user";
 
-export const createConfig = (req: Request, res: Response) => ErrorBoundary({
+export const createConfig = (req: Request, res: Response) => ErrorBoundarySync({
   res, req,
   cb: async () => {
     const configPayload = req.body.config as TypeConfig;

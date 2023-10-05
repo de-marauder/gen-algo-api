@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import ErrorBoundary, { ErrorResponse } from "../../helpers/ErrorBoundary";
+import ErrorBoundarySync, { ErrorResponse } from "../../helpers/ErrorBoundarySync";
 import { ConfigModel } from "../../models/Config";
 import { TypeUser } from "../../lib/Types/user";
 
-export const deleteConfig = (req: Request, res: Response) => ErrorBoundary({
+export const deleteConfig = (req: Request, res: Response) => ErrorBoundarySync({
   res, req,
   cb: async () => {
     const configId = req.params.configId as string;

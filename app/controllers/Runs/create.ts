@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import ErrorBoundary, { ErrorResponse } from "../../helpers/ErrorBoundary";
+import ErrorBoundarySync, { ErrorResponse } from "../../helpers/ErrorBoundarySync";
 import { runAlgorithm } from "./runAlgo";
 import { ConfigModel } from "../../models/Config";
 import { TypeUser } from "../../lib/Types/user";
 
-export const createRun = (req: Request, res: Response) => ErrorBoundary({
+export const createRun = (req: Request, res: Response) => ErrorBoundarySync({
   req, res,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>

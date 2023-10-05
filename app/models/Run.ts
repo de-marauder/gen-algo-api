@@ -44,6 +44,7 @@ const RunSchema = new Schema(
     },
     stopCondition: String,
     timeTaken: String,
+    error: Number,
     userid: Schema.Types.ObjectId
   },
   {

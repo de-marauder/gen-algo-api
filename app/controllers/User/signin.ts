@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import ErrorBoundary, { ErrorResponse } from "../../helpers/ErrorBoundary";
+import ErrorBoundarySync, { ErrorResponse } from "../../helpers/ErrorBoundarySync";
 import { validateUserAuthPayload } from "../../helpers/validators";
 import { TypeUser } from "../../lib/Types/user";
 import { UserModel } from "../../models/User";
@@ -7,16 +7,14 @@ import bcrypt from 'bcrypt';
 import { env } from "../../helpers/env";
 import jwt from "jsonwebtoken";
 
-export const signin = (req: Request, res: Response) => ErrorBoundary({
+export const signin = (req: Request, res: Response) => ErrorBoundarySync({
   req, res,
   cb: async (req, res) => {
-    const bearerToken = req.headers.authorization;
-    if (!bearerToken) throw new ErrorResponse({ code: 401, status: 'failed', errorCode: 'NOT_AUTHORIZED', message: 'Please pass authorization header' })
+
     const newUser = {
       username: req.body.username as string,
       email: req.body.email as string,
       password: req.body.password as string,
-      token: bearerToken.split(' ')[1],
     }
     const { error: e } = validateUserAuthPayload(newUser);
     if (e) throw e
@@ -32,18 +30,31 @@ export const signin = (req: Request, res: Response) => ErrorBoundary({
 
 const loginUser = async (payload: TypeUser) => {
   try {
-    const hashedPassword = await bcrypt.hash(payload.password as string, 10)
-    const newToken = jwt.sign({ username: payload.username, email: payload.email }, env('JWT_SECRET'))
     const user = await UserModel.findOne({
       $or: [
-        { username: payload.username, password: hashedPassword },
-        { email: payload.email, password: hashedPassword }
+        { username: payload.username }, //, password: hashedPassword },
+        { email: payload.email } //, password: hashedPassword }
       ]
-    }).select('-password');
-    if (!user) return { error: new ErrorResponse({ code: 404, status: 'failed', errorCode: 'NOT_FOUND', message: 'Incorrect user details' }) };
+    });
+    if (!user) return { error: new ErrorResponse({ code: 404, errorCode: 'NOT_FOUND', message: 'Incorrect user details' }) };
+    const passwordSame = await bcrypt.compare(payload.password as string, user.password as string)
+    const hashedPassword = await bcrypt.hash(payload.password as string, 10)
+    console.log(passwordSame)
+    console.log(hashedPassword)
+    console.log(await UserModel.findOne({ username: payload.username }))
+    if (!passwordSame) return { error: new ErrorResponse({ code: 404, errorCode: 'INVALID_PASSWORD', message: 'Incorrect user password' }) };
+
+    const newToken = jwt.sign({ username: payload.username, email: payload.email }, env('JWT_SECRET'));
     user.token = newToken;
     await user.save();
-    return { user }
+    return {
+      user: {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        token: user.token
+      }
+    }
   } catch (error) {
     return { error: error as Error | ErrorResponse }
   }

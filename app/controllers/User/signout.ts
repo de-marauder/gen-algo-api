@@ -1,14 +1,14 @@
 import { Request, Response } from 'express'
-import ErrorBoundary, { ErrorResponse } from "../../helpers/ErrorBoundary";
+import ErrorBoundarySync, { ErrorResponse } from "../../helpers/ErrorBoundarySync";
 import { UserModel } from '../../models/User';
 import { TypeUser } from '../../lib/Types/user';
 
-export const signout = (req: Request, res: Response) => ErrorBoundary({
+export const signout = (req: Request, res: Response) => ErrorBoundarySync({
   res, req,
   cb: async (req, res) => {
     const user = req.body._user as TypeUser;
     if (!user) throw new ErrorResponse({ message: 'User cannot be identified. Please signin again', code: 401, errorCode: 'UNAUTHORIZED' });
-    const found = await UserModel.findById(user._id, { token: '' });
+    const found = await UserModel.findById(user._id); 
     if (!found) throw new ErrorResponse({ message: 'Could not find user with token', code: 401, errorCode: 'UNAUTHORIZED' })
     found.token = '';
     await found.save();

@@ -5,6 +5,7 @@ import { start } from './app/config/db';
 import { userRouter } from './app/routes/user';
 import { configRouter } from './app/routes/config';
 import { runsRouter } from './app/routes/runs';
+import { baseRouter } from './app/routes';
 
 
 const PORT = env('PORT') || 8000
@@ -13,10 +14,7 @@ const app = express()
 app.use(express.json());
 app.use(cors())
 
-app.use('/api');
-app.use(userRouter)
-app.use(configRouter)
-app.use(runsRouter)
+app.use('/', baseRouter);
 
 app.use('*', (req: Request, res: Response) => {
   res.status(404).end(`This path ${req.path} does not exist`)

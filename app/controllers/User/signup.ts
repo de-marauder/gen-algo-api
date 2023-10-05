@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import ErrorBoundary, { ErrorResponse } from "../../helpers/ErrorBoundary";
+import ErrorBoundarySync, { ErrorResponse } from "../../helpers/ErrorBoundarySync";
 import { UserModel } from "../../models/User";
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
@@ -8,7 +8,7 @@ import { env } from "../../helpers/env";
 import { validateUserAuthPayload } from "../../helpers/validators";
 
 
-export const signup = (req: Request, res: Response) => ErrorBoundary({
+export const signup = (req: Request, res: Response) => ErrorBoundarySync({
   req, res,
   cb: async (req, res) => {
     const newUser = {
@@ -43,7 +43,7 @@ const createUser = async (userDetails: TypeUser) => {
     const password = userDetails.password as string;
     delete userDetails.password;
     const user = new UserModel(userDetails)
-    const token = jwt.sign(user, env('JWT_SECRET'), {
+    const token = jwt.sign(userDetails, env('JWT_SECRET'), {
       expiresIn: '24h'
     })
     const hashedPassword = await bcrypt.hash(password, 10)

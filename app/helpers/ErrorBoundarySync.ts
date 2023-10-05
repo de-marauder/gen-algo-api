@@ -9,18 +9,20 @@ type Args = {
   cb: Fn;
 }
 
-const ErrorBoundary = ({ req, res, next, cb }: Args) => {
+const ErrorBoundarySync = async ({ req, res, next, cb }: Args) => {
   try {
-    cb(req, res)
+    await cb(req, res).catch((error)=>{
+      throw error
+    })
     if (next) next()
   } catch (error) {
     console.log('Error occured => \n', error)
     if (error instanceof ErrorResponse) {
-      return res.status(500).json({
+      return res.status(error.code || 500).json({
         message: error.message,
         errorCode: error.errorCode,
-        code: error.code,
-        status: error.status
+        status: error.status,
+        data: error.data,
       })
     }
     res.status(500).json({
@@ -30,19 +32,21 @@ const ErrorBoundary = ({ req, res, next, cb }: Args) => {
   }
 }
 
-export default ErrorBoundary
+export default ErrorBoundarySync
 
 export class ErrorResponse extends Error {
   message = 'An Error occured'
   errorCode = 'SERVER_ERROR'
   code = 500
   status = 'failed'
+  data = undefined
 
-  constructor({ message, code, status, errorCode }: { message: string, code?: number, errorCode?: string, status?: string }) {
+  constructor({ message, code, status, errorCode, data }: { message: string, code?: number, errorCode?: string, status?: string, data?: any }) {
     super()
     this.message = message
-    if (errorCode) this.errorCode = errorCode
-    if (code) this.code = code
-    if (status) this.status = status
+    if (errorCode) this.errorCode = errorCode;
+    if (code) this.code = code;
+    if (status) this.status = status;
+    if (data) this.data = data;
   }
 }
