@@ -2,9 +2,6 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { env } from './app/helpers/env';
 import { start } from './app/config/db';
-import { userRouter } from './app/routes/user';
-import { configRouter } from './app/routes/config';
-import { runsRouter } from './app/routes/runs';
 import { baseRouter } from './app/routes';
 
 
