@@ -394,7 +394,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InplbGRvciIsImVtYWlsIjoiemVsZG9yQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQ1MzU4MX0.Sp5eEW4VdVxOdUErZOUU1MYDCkATlohBeNyPUAmv5SA",
+								"value": "Bearer <token>",
 								"type": "text",
 								"disabled": true
 							}
@@ -423,7 +423,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InplbGRvciIsImVtYWlsIjoiemVsZG9yQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQ1MzU4MX0.Sp5eEW4VdVxOdUErZOUU1MYDCkATlohBeNyPUAmv5SA",
+										"value": "Bearer <token>",
 										"type": "text"
 									}
 								],
@@ -966,7 +966,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InplbGRvciIsImVtYWlsIjoiemVsZG9yQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQ1MzAzM30.LJ5jkHOph1-LCj3lXMjQOLzUtJyTXuxIYOJ8h4TcWZk",
+								"value": "Bearer <token>",
 								"type": "text",
 								"disabled": true
 							}
@@ -989,7 +989,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InplbGRvciIsImVtYWlsIjoiemVsZG9yQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQ1MzAzM30.LJ5jkHOph1-LCj3lXMjQOLzUtJyTXuxIYOJ8h4TcWZk",
+										"value": "Bearer <token>",
 										"type": "text"
 									}
 								],
@@ -1062,7 +1062,7 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InplbGRvciIsImVtYWlsIjoiemVsZG9yQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQ1MDQwMCwiZXhwIjoxNjk2NTM2ODAwfQ.l3J3_9lvHlxBRAiw44g38LD_za6qzBa_x2-KHiUfqjU",
+								"value": "Bearer <token>",
 								"type": "text",
 								"disabled": true
 							}
@@ -1085,7 +1085,7 @@
 								"header": [
 									{
 										"key": "Authorization",
-										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InplbGRvciIsImVtYWlsIjoiemVsZG9yQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQ1MDQwMCwiZXhwIjoxNjk2NTM2ODAwfQ.l3J3_9lvHlxBRAiw44g38LD_za6qzBa_x2-KHiUfqjU",
+										"value": "Bearer <token>",
 										"type": "text"
 									}
 								],
