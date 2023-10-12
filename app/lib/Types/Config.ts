@@ -1,4 +1,5 @@
 export type TypeConfig = {
+  name: string;
   mbGenSize: number,
   mbMovingAverage: number,
   mbMutationProbability: number,

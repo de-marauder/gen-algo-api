@@ -27,7 +27,12 @@ export const getAllRuns = (req: Request, res: Response) => ErrorBoundarySync({
   req, res,
   cb: async (req, res) => {
     const user = req.body._user as TypeUser;
-    const runs = await RunModel.find({ userid: user._id })
+    const query: {userid: string, config?: string} = {
+        userid: user?._id?.toString() as string
+    }
+    if (req.query.configId) query.config = req.query.configId as string; 
+
+    const runs = await RunModel.find(query)
       .populate('config')
       .catch((error) => {
         console.log(error);

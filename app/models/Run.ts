@@ -1,7 +1,10 @@
 import { Schema, model } from 'mongoose';
+import { ErrorResponse } from '../helpers/ErrorBoundarySync';
+import { TypeRun } from '../lib/Types/runs';
 
-const RunSchema = new Schema(
+const RunSchema = new Schema<TypeRun>(
   {
+    no: Number,
     config: {
       type: Schema.Types.ObjectId,
       required: true
@@ -45,11 +48,19 @@ const RunSchema = new Schema(
     stopCondition: String,
     timeTaken: String,
     error: Number,
-    userid: Schema.Types.ObjectId
+    userid: String
   },
   {
     timestamps: true
   }
 )
+
+RunSchema.pre('save', async function () {
+  console.log('running runs presave hook')
+  if (!this.no) {
+    const length = await RunModel.countDocuments({ config: this.config, userid: this.userid });
+    this.no = length;
+  }
+})
 
 export const RunModel = model('RunModel', RunSchema, 'RunModel')

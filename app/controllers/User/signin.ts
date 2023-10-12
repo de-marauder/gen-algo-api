@@ -18,8 +18,21 @@ export const signin = (req: Request, res: Response) => ErrorBoundarySync({
     }
     const { error: e } = validateUserAuthPayload(newUser);
     if (e) throw e
-    const { user, error } = await loginUser(newUser);
+    const { user, error } = await loginUser(newUser) as {
+      user: Partial<TypeUser>,
+      error: Error | ErrorResponse | null | undefined
+    };;
     if (error) throw error
+
+    // Set an HTTP-only secure cookie with the token
+    res.cookie('jwt-token', `Bearer ${user.token}`, {
+      httpOnly: true,
+      secure: true, // Set to true in production when using HTTPS
+      // sameSite: 'strict', // Recommended for preventing CSRF
+      maxAge: 3600000, // Cookie expiration time in milliseconds (1 hour)
+      path: '/', // Specify the cookie's path as needed
+    })
+    // user.token = undefined;
     return res.status(200).json({
       status: 'success',
       message: 'USER_LOGGED_IN',

@@ -1,0 +1,1147 @@
+{
+	"info": {
+		"_postman_id": "65d22ba7-9c74-46af-b763-0f6f81d80df1",
+		"name": "Gen-Algo-API",
+		"description": "API collection for my genetics algorithm webui.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25333485"
+	},
+	"item": [
+		{
+			"name": "RUNS",
+			"item": [
+				{
+					"name": "Create Run",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"configId\": \"651ddaa8b99e189e0a95fe51\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}runs",
+							"host": [
+								"{{server}}runs"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Run",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"configId\": \"651ddaa8b99e189e0a95fe51\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}runs",
+									"host": [
+										"{{server}}runs"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "512"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"200-l2QA4TOFRXLMVsGm46UMPsqIrqc\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Oct 2023 21:42:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Run completed\",\n    \"data\": {\n        \"config\": \"651ddaa8b99e189e0a95fe51\",\n        \"outputCH4\": 34.5235,\n        \"outputCO\": 4.6846,\n        \"outputCO2\": 60.7919,\n        \"outputH2\": 257.2213,\n        \"outputH2O\": 529.4817,\n        \"pressure\": 21.6762,\n        \"temperature\": 805.9943,\n        \"steamToCarbonRatio\": 6.5575,\n        \"numberOfGenerationsRan\": 18,\n        \"stopCondition\": \"convergence\",\n        \"timeTaken\": \"0.18548333333333333 mins\",\n        \"userid\": \"651dd3c3cbce041736e3ae89\",\n        \"_id\": \"651ddc2bcb3647c5f76dfb28\",\n        \"createdAt\": \"2023-10-04T21:42:03.923Z\",\n        \"updatedAt\": \"2023-10-04T21:42:03.923Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Run by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}runs/:runId",
+							"host": [
+								"{{server}}runs"
+							],
+							"path": [
+								":runId"
+							],
+							"variable": [
+								{
+									"key": "runId",
+									"value": "651ddc2bcb3647c5f76dfb28"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Run by Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{server}}runs/:runId",
+									"host": [
+										"{{server}}runs"
+									],
+									"path": [
+										":runId"
+									],
+									"variable": [
+										{
+											"key": "runId",
+											"value": "651ddc2bcb3647c5f76dfb28"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "508"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1fc-pZl3kRNi/MMaJnpE9lkQsiHIBgc\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Oct 2023 21:42:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"RUN_FOUND\",\n    \"data\": {\n        \"_id\": \"651ddc2bcb3647c5f76dfb28\",\n        \"config\": \"651ddaa8b99e189e0a95fe51\",\n        \"outputCH4\": 34.5235,\n        \"outputCO\": 4.6846,\n        \"outputCO2\": 60.7919,\n        \"outputH2\": 257.2213,\n        \"outputH2O\": 529.4817,\n        \"pressure\": 21.6762,\n        \"temperature\": 805.9943,\n        \"steamToCarbonRatio\": 6.5575,\n        \"numberOfGenerationsRan\": 18,\n        \"stopCondition\": \"convergence\",\n        \"timeTaken\": \"0.18548333333333333 mins\",\n        \"userid\": \"651dd3c3cbce041736e3ae89\",\n        \"createdAt\": \"2023-10-04T21:42:03.923Z\",\n        \"updatedAt\": \"2023-10-04T21:42:03.923Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all runs by user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}runs",
+							"host": [
+								"{{server}}runs"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all runs by user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{server}}runs",
+									"host": [
+										"{{server}}runs"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "510"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1fe-k8OVzdzgmWguzIMwoz7CAGooBJ8\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Oct 2023 21:42:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"RUN_FOUND\",\n    \"data\": [\n        {\n            \"_id\": \"651ddc2bcb3647c5f76dfb28\",\n            \"config\": \"651ddaa8b99e189e0a95fe51\",\n            \"outputCH4\": 34.5235,\n            \"outputCO\": 4.6846,\n            \"outputCO2\": 60.7919,\n            \"outputH2\": 257.2213,\n            \"outputH2O\": 529.4817,\n            \"pressure\": 21.6762,\n            \"temperature\": 805.9943,\n            \"steamToCarbonRatio\": 6.5575,\n            \"numberOfGenerationsRan\": 18,\n            \"stopCondition\": \"convergence\",\n            \"timeTaken\": \"0.18548333333333333 mins\",\n            \"userid\": \"651dd3c3cbce041736e3ae89\",\n            \"createdAt\": \"2023-10-04T21:42:03.923Z\",\n            \"updatedAt\": \"2023-10-04T21:42:03.923Z\",\n            \"__v\": 0\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete run by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server}}runs/:runId",
+							"host": [
+								"{{server}}runs"
+							],
+							"path": [
+								":runId"
+							],
+							"variable": [
+								{
+									"key": "runId",
+									"value": "651ddc2bcb3647c5f76dfb28"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete run by Id",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{server}}runs/:runId",
+									"host": [
+										"{{server}}runs"
+									],
+									"path": [
+										":runId"
+									],
+									"variable": [
+										{
+											"key": "runId",
+											"value": "651ddc2bcb3647c5f76dfb28"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "44"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2c-FWx4ZUcuyvvzWSUsf6/9n7wzm+E\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Oct 2023 21:43:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"RUN_DELETED\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "CONFIG",
+			"item": [
+				{
+					"name": "Create config",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InplbGRvciIsImVtYWlsIjoiemVsZG9yQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQ1MzU4MX0.Sp5eEW4VdVxOdUErZOUU1MYDCkATlohBeNyPUAmv5SA",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"config\": {\n        \"name\": \"string\",\n        \"smrConfig\": {\n            \"smrPopSize\": \"number\",\n            \"smrGenSize\": \"number\",\n            \"smrMovingAverage\": \"number\",\n            \"smrMutationProbability\": \"number\"\n        },\n        \"mbConfig\": {\n            \"mbPopSize\": \"number\",\n            \"mbGenSize\": \"number\",\n            \"mbMovingAverage\": \"number\",\n            \"mbMutationProbability\": \"number\"\n        },\n        \"flareGasComposition\": {\n            \"ch4\": \"number\",\n            \"c2h6\": \"number\",\n            \"c3h8\": \"number\",\n            \"ic4\": \"number\",\n            \"nc4\": \"number\",\n            \"ic5\": \"number\",\n            \"nc5\": \"number\",\n            \"ic6\": \"number\",\n            \"nc6\": \"number\",\n            \"h2\": \"number\",\n            \"n2\": \"number\",\n            \"co2\": \"number\"\n        },\n        \"standardPressure\": \"number\",\n        \"traitBoundaries\": {\n            \"pressureLowerbound\": \"number\",\n            \"pressureUpperbound\": \"number\",\n            \"temperatureLowerbound\": \"number\",\n            \"temperatureUpperbound\": \"number\",\n            \"steamCarbonRatioLowerbound\": \"number\",\n            \"steamCarbonRatioUpperbound\": \"number\"\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}config",
+							"host": [
+								"{{server}}config"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create config",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InplbGRvciIsImVtYWlsIjoiemVsZG9yQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQ1MzU4MX0.Sp5eEW4VdVxOdUErZOUU1MYDCkATlohBeNyPUAmv5SA",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"config\": {\n        \"name\": \"string\",\n        \"smrConfig\": {\n            \"smrPopSize\": \"number\",\n            \"smrGenSize\": \"number\",\n            \"smrMovingAverage\": \"number\",\n            \"smrMutationProbability\": \"number\"\n        },\n        \"mbConfig\": {\n            \"mbPopSize\": \"number\",\n            \"mbGenSize\": \"number\",\n            \"mbMovingAverage\": \"number\",\n            \"mbMutationProbability\": \"number\"\n        },\n        \"flareGasComposition\": {\n            \"ch4\": \"number\",\n            \"c2h6\": \"number\",\n            \"c3h8\": \"number\",\n            \"ic4\": \"number\",\n            \"nc4\": \"number\",\n            \"ic5\": \"number\",\n            \"nc5\": \"number\",\n            \"ic6\": \"number\",\n            \"nc6\": \"number\",\n            \"h2\": \"number\",\n            \"n2\": \"number\",\n            \"co2\": \"number\"\n        },\n        \"standardPressure\": \"number\",\n        \"traitBoundaries\": {\n            \"pressureLowerbound\": \"number\",\n            \"pressureUpperbound\": \"number\",\n            \"temperatureLowerbound\": \"number\",\n            \"temperatureUpperbound\": \"number\",\n            \"steamCarbonRatioLowerbound\": \"number\",\n            \"steamCarbonRatioUpperbound\": \"number\"\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}config",
+									"host": [
+										"{{server}}config"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "670"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"29e-njrtx5txiDH7dpKCXaOmjdzjZjc\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Oct 2023 21:23:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Configuration created\",\n    \"data\": {\n        \"mbGenSize\": 30,\n        \"mbMovingAverage\": 10,\n        \"mbMutationProbability\": 10,\n        \"mbPopSize\": 30,\n        \"smrGenSize\": 50,\n        \"smrMovingAverage\": 10,\n        \"smrMutationProbability\": 20,\n        \"smrPopSize\": 30,\n        \"pressureLowerbound\": 20,\n        \"pressureUpperbound\": 30,\n        \"temperatureLowerbound\": 600,\n        \"temperatureUpperbound\": 1200,\n        \"steamCarbonRatioLowerbound\": 2,\n        \"steamCarbonRatioUpperbound\": 8,\n        \"standardPressure\": 1.01325,\n        \"ch4\": 100,\n        \"c2h6\": 0,\n        \"c3h8\": 0,\n        \"ic4\": 0,\n        \"nc4\": 0,\n        \"ic5\": 0,\n        \"nc5\": 0,\n        \"ic6\": 0,\n        \"nc6\": 0,\n        \"co2\": 0,\n        \"h2\": 0,\n        \"n2\": 0,\n        \"userid\": \"651dd3c3cbce041736e3ae89\",\n        \"_id\": \"651dd7d217207096e05df8ee\",\n        \"createdAt\": \"2023-10-04T21:23:30.535Z\",\n        \"updatedAt\": \"2023-10-04T21:23:30.535Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get config by Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}config/:configId",
+							"host": [
+								"{{server}}config"
+							],
+							"path": [
+								":configId"
+							],
+							"variable": [
+								{
+									"key": "configId",
+									"value": "651ddaa8b99e189e0a95fe51"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get config by Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{server}}config/:configId",
+									"host": [
+										"{{server}}config"
+									],
+									"path": [
+										":configId"
+									],
+									"variable": [
+										{
+											"key": "configId",
+											"value": "651dd7d217207096e05df8ee"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "670"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"29e-/+paDg/q5Df0tRDBFGfnAHU6j8Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Oct 2023 21:24:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Configuration created\",\n    \"data\": {\n        \"_id\": \"651dd7d217207096e05df8ee\",\n        \"mbGenSize\": 30,\n        \"mbMovingAverage\": 10,\n        \"mbMutationProbability\": 10,\n        \"mbPopSize\": 30,\n        \"smrGenSize\": 50,\n        \"smrMovingAverage\": 10,\n        \"smrMutationProbability\": 20,\n        \"smrPopSize\": 30,\n        \"pressureLowerbound\": 20,\n        \"pressureUpperbound\": 30,\n        \"temperatureLowerbound\": 600,\n        \"temperatureUpperbound\": 1200,\n        \"steamCarbonRatioLowerbound\": 2,\n        \"steamCarbonRatioUpperbound\": 8,\n        \"standardPressure\": 1.01325,\n        \"ch4\": 100,\n        \"c2h6\": 0,\n        \"c3h8\": 0,\n        \"ic4\": 0,\n        \"nc4\": 0,\n        \"ic5\": 0,\n        \"nc5\": 0,\n        \"ic6\": 0,\n        \"nc6\": 0,\n        \"co2\": 0,\n        \"h2\": 0,\n        \"n2\": 0,\n        \"userid\": \"651dd3c3cbce041736e3ae89\",\n        \"createdAt\": \"2023-10-04T21:23:30.535Z\",\n        \"updatedAt\": \"2023-10-04T21:23:30.535Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all config by user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}config/all",
+							"host": [
+								"{{server}}config"
+							],
+							"path": [
+								"all"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all config by user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{server}}config/all",
+									"host": [
+										"{{server}}config"
+									],
+									"path": [
+										"all"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "672"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2a0-yxRBoCvhPVZQBNQ+pXVGePVcZ2A\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Oct 2023 21:24:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Configuration created\",\n    \"data\": [\n        {\n            \"_id\": \"651dd7d217207096e05df8ee\",\n            \"mbGenSize\": 30,\n            \"mbMovingAverage\": 10,\n            \"mbMutationProbability\": 10,\n            \"mbPopSize\": 30,\n            \"smrGenSize\": 50,\n            \"smrMovingAverage\": 10,\n            \"smrMutationProbability\": 20,\n            \"smrPopSize\": 30,\n            \"pressureLowerbound\": 20,\n            \"pressureUpperbound\": 30,\n            \"temperatureLowerbound\": 600,\n            \"temperatureUpperbound\": 1200,\n            \"steamCarbonRatioLowerbound\": 2,\n            \"steamCarbonRatioUpperbound\": 8,\n            \"standardPressure\": 1.01325,\n            \"ch4\": 100,\n            \"c2h6\": 0,\n            \"c3h8\": 0,\n            \"ic4\": 0,\n            \"nc4\": 0,\n            \"ic5\": 0,\n            \"nc5\": 0,\n            \"ic6\": 0,\n            \"nc6\": 0,\n            \"co2\": 0,\n            \"h2\": 0,\n            \"n2\": 0,\n            \"userid\": \"651dd3c3cbce041736e3ae89\",\n            \"createdAt\": \"2023-10-04T21:23:30.535Z\",\n            \"updatedAt\": \"2023-10-04T21:23:30.535Z\",\n            \"__v\": 0\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete config",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server}}config/:configId",
+							"host": [
+								"{{server}}config"
+							],
+							"path": [
+								":configId"
+							],
+							"variable": [
+								{
+									"key": "configId",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete config",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{server}}config/:configId",
+									"host": [
+										"{{server}}config"
+									],
+									"path": [
+										":configId"
+									],
+									"variable": [
+										{
+											"key": "configId",
+											"value": "651dd7d217207096e05df8ee"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "54"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"36-zfdSfDkoW0qeTnBK4AQzjcUyFZ8\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Oct 2023 21:25:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"Configuration deleted\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "USERS",
+			"item": [
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"zeldor\",\n    \"email\": \"zeldor@gmail.com\",\n    \"password\": \"password123.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/auth/signup",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Signup",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"zeldor\",\n    \"email\": \"zeldor@gmail.com\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}/auth/signup",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "303"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"12f-NtAuwaEq90ZVgu4tJmKWxyplKPA\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Oct 2023 20:13:20 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"USER_CREATED\",\n    \"data\": {\n        \"username\": \"zeldor\",\n        \"email\": \"zeldor@gmail.com\",\n        \"token\": \"<token>\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Signin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"zeldor\",\n    \"email\": \"zeldor@gmail.com\",\n    \"password\": \"password123.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}auth/signin",
+							"host": [
+								"{{server}}auth"
+							],
+							"path": [
+								"signin"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Signin",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\": \"zeldor\",\n    \"email\": \"zeldor@gmail.com\",\n    \"password\": \"password\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{server}}auth/signin",
+									"host": [
+										"{{server}}auth"
+									],
+									"path": [
+										"signin"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "315"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"13b-Gje6aKHVJLdEZL4sKt4tCeRodbY\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Oct 2023 20:57:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"USER_LOGGED_IN\",\n    \"data\": {\n        \"_id\": \"651dc7601cff02f1801ee36a\",\n        \"username\": \"zeldor\",\n        \"email\": \"zeldor@gmail.com\",\n        \"token\": \"<token>\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Signout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InplbGRvciIsImVtYWlsIjoiemVsZG9yQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQ1MzAzM30.LJ5jkHOph1-LCj3lXMjQOLzUtJyTXuxIYOJ8h4TcWZk",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{server}}auth/signout",
+							"host": [
+								"{{server}}auth"
+							],
+							"path": [
+								"signout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Signout",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InplbGRvciIsImVtYWlsIjoiemVsZG9yQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQ1MzAzM30.LJ5jkHOph1-LCj3lXMjQOLzUtJyTXuxIYOJ8h4TcWZk",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{server}}auth/signout",
+									"host": [
+										"{{server}}auth"
+									],
+									"path": [
+										"signout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "48"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"30-RN6e+JWY3jL1gGM/AbrJ6/EYEks\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Oct 2023 21:00:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"user logged out\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{admin}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InplbGRvciIsImVtYWlsIjoiemVsZG9yQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQ1MDQwMCwiZXhwIjoxNjk2NTM2ODAwfQ.l3J3_9lvHlxBRAiw44g38LD_za6qzBa_x2-KHiUfqjU",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{server}}/user",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get user",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InplbGRvciIsImVtYWlsIjoiemVsZG9yQGdtYWlsLmNvbSIsImlhdCI6MTY5NjQ1MDQwMCwiZXhwIjoxNjk2NTM2ODAwfQ.l3J3_9lvHlxBRAiw44g38LD_za6qzBa_x2-KHiUfqjU",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{server}}/user",
+									"host": [
+										"{{server}}"
+									],
+									"path": [
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "420"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a4-icClnvA0noK8CEsGyPMnnNXdrzA\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 04 Oct 2023 20:16:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"user found\",\n    \"data\": {\n        \"_id\": \"651dc7601cff02f1801ee36a\",\n        \"username\": \"zeldor\",\n        \"email\": \"zeldor@gmail.com\",\n        \"token\": \"<token>\",\n        \"createdAt\": \"2023-10-04T20:13:20.198Z\",\n        \"updatedAt\": \"2023-10-04T20:13:20.198Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}

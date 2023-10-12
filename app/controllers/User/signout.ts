@@ -12,6 +12,7 @@ export const signout = (req: Request, res: Response) => ErrorBoundarySync({
     if (!found) throw new ErrorResponse({ message: 'Could not find user with token', code: 401, errorCode: 'UNAUTHORIZED' })
     found.token = '';
     await found.save();
+    res.clearCookie('jwt-token')
     return res.status(200).json({
       status: 'success',
       message: 'user logged out'

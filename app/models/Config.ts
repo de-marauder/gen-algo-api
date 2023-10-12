@@ -3,6 +3,7 @@ import { TypeConfig } from '../lib/Types/Config';
 
 const ConfigSchema = new Schema<TypeConfig>(
   {
+    name: { type: String },
     mbGenSize: {
       required: true,
       type: Number
@@ -111,12 +112,19 @@ const ConfigSchema = new Schema<TypeConfig>(
       required: true,
       type: Number
     },
-    userid: Schema.Types.ObjectId
+    userid: String
   },
   {
     timestamps: true
   }
 )
+
+ConfigSchema.pre('save', async function () {
+  if (!this.name) {
+    const length = await ConfigModel.countDocuments({ userid: this.userid });
+    this.name = `Config-${length}`
+  }
+})
 
 export const ConfigModel = model('ConfigModel', ConfigSchema, 'ConfigModel')
 

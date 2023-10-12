@@ -13,7 +13,7 @@ export const createRun = (req: Request, res: Response) => ErrorBoundarySync({
     const { run, error } = await runAlgorithm(req.body.configId, config, user._id);
     if (error) throw error;
 
-    return res.status(200).json({
+    return res.status(201).json({
       status: 'success',
       message: 'Run completed',
       data: run
