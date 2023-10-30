@@ -3,21 +3,24 @@ import ErrorBoundarySync, { ErrorResponse } from "../../helpers/ErrorBoundarySyn
 import { runAlgorithm } from "./runAlgo";
 import { ConfigModel } from "../../models/Config";
 import { TypeUser } from "../../lib/Types/user";
+import { sendRunNotif } from "../../helpers/Notifications";
 
 export const createRun = (req: Request, res: Response) => ErrorBoundarySync({
   req, res,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>
-    const { config, error: e } = await buildPayload(req.body.configId);
-    if (e) throw e
-    const { run, error } = await runAlgorithm(req.body.configId, config, user._id);
-    if (error) throw error;
 
-    return res.status(201).json({
+    const { config, error: e } = await buildPayload(req.body.configId);
+
+    if (e) throw e
+    res.status(200).json({
       status: 'success',
-      message: 'Run completed',
-      data: run
+      message: 'Run started',
     })
+
+    const { run, error } = await runAlgorithm(req.body.configId, config, user._id);
+
+    sendRunNotif(run, error, user)
   }
 })
 

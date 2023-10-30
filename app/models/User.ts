@@ -6,7 +6,8 @@ const UserSchema = new Schema<TypeUser>(
     username: String,
     email: String,
     password: String,
-    token: String
+    token: String,
+    fcmToken: String,
   },
   {
     timestamps: true

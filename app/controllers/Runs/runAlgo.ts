@@ -2,20 +2,30 @@ import { RunModel } from "../../models/Run";
 import { runAlgo } from "../../lib/runAlgo";
 import { AlgoResult, Config } from "../../lib/Types/algo";
 import { SMRGeneticsAlgorithm } from "../../lib/Algorithm/SMR";
+import Trail from "../../services/Logger";
 
 export const runAlgorithm = async (configId: string, payload: Config, userid: string) => {
-  const config = { ...payload } as Config;
-  // run algorithm
-  const data = await runAlgo(config);
-  if (data.error) return { error: data.error }
-  // build result
-  const runResult = buildResult(data.run.result, configId, data.run.timeTaken, userid)
-  const result = await RunModel.create(runResult)
-    .catch((error: Error) => {
-      if (error) throw new Error(error.message)
-    })
-  return { run: result }
+  try {
 
+    const config = { ...payload } as Config;
+    // run algorithm
+    const data = await runAlgo(config);
+    if (data.error) return { error: data.error }
+    // build result
+    const runResult = buildResult(data.run.result, configId, data.run.timeTaken, userid)
+    const result = await RunModel.create(runResult)
+      .catch((error: Error) => {
+        if (error) throw new Error(error.message)
+      })
+    return { run: result }
+  } catch (error) {
+    Trail.logError({
+      message: (error as Error).message || 'Error while creating run',
+      module: __filename,
+      metadata: error
+    })
+    return { error: { message: 'Error while creating run' } }
+  }
 }
 
 const buildResult = (data: SMRGeneticsAlgorithm, configId: string, timeTaken: string, userid: string): AlgoResult => {
