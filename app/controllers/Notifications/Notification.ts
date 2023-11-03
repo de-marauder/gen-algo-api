@@ -4,6 +4,7 @@ import { deleteAllNotificationByUser, deleteOneNotificationByUser, getAllNotific
 import { TypeUser } from "../../lib/Types/user";
 
 export const getByUser = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   req, res,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>
@@ -19,6 +20,7 @@ export const getByUser = (req: Request, res: Response) => ErrorBoundarySync({
   }
 })
 export const getAll = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   req, res,
   cb: async (req, res) => {
 
@@ -34,6 +36,7 @@ export const getAll = (req: Request, res: Response) => ErrorBoundarySync({
 })
 
 export const deleteOne = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   req, res,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>
@@ -51,6 +54,7 @@ export const deleteOne = (req: Request, res: Response) => ErrorBoundarySync({
 })
 
 export const deleteMany = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   req, res,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>

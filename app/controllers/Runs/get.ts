@@ -4,6 +4,7 @@ import { RunModel } from "../../models/Run";
 import { TypeUser } from "../../lib/Types/user";
 
 export const getOneRun = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   req, res,
   cb: async (req, res) => {
     const user = req.body._user as TypeUser;
@@ -24,13 +25,14 @@ export const getOneRun = (req: Request, res: Response) => ErrorBoundarySync({
 })
 
 export const getAllRuns = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   req, res,
   cb: async (req, res) => {
     const user = req.body._user as TypeUser;
-    const query: {userid: string, config?: string} = {
-        userid: user?._id?.toString() as string
+    const query: { userid: string, config?: string } = {
+      userid: user?._id?.toString() as string
     }
-    if (req.query.configId) query.config = req.query.configId as string; 
+    if (req.query.configId) query.config = req.query.configId as string;
 
     const runs = await RunModel.find(query)
       .populate('config')

@@ -4,6 +4,7 @@ import { RunModel } from "../../models/Run";
 import { TypeUser } from "../../lib/Types/user";
 
 export const deleteOneRun = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   req, res,
   cb: async (req, res) => {
     // console.log('delete route hit')

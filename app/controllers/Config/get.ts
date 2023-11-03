@@ -5,6 +5,7 @@ import { UserModel } from '../../models/User';
 import { TypeUser } from '../../lib/Types/user';
 
 export const getOneConfig = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   res, req,
   cb: async () => {
     const user = req.body._user as TypeUser;
@@ -24,17 +25,15 @@ export const getOneConfig = (req: Request, res: Response) => ErrorBoundarySync({
 })
 
 export const getManyConfig = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   res, req,
   cb: async () => {
     const user = req.body._user as TypeUser;
-    // console.log('config user: ', user)
     const query: {
       userid: string;
-      config?: string;
     } = {
       userid: user._id?.toString() as string
     }
-    if (req.query.configId) query.config = req.query.configId as string;
 
     const configs = await ConfigModel.find(query).catch((error) => {
       console.log(error);
@@ -44,7 +43,7 @@ export const getManyConfig = (req: Request, res: Response) => ErrorBoundarySync(
 
     return res.status(200).json({
       status: 'success',
-      message: 'Configuration found',
+      message: 'Configurations found',
       data: configs
     })
   }

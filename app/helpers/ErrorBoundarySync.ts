@@ -4,15 +4,16 @@ import Trail from "../services/Logger";
 export type Fn = (req: Request, res: Response, next?: NextFunction) => Promise<void | NextFunction | Response<any, Record<string, any>>>
 
 type Args = {
+  module: string;
   req: Request;
   res: Response;
   next?: NextFunction;
   cb: Fn;
 }
 
-const ErrorBoundarySync = async ({ req, res, next, cb }: Args) => {
+const ErrorBoundarySync = async({ module, req, res, next, cb }: Args) => {
   try {
-    await cb(req, res).catch((error) => {
+    await cb(req, res, next).catch((error) => {
       throw error
     })
     if (next) next()
@@ -22,6 +23,7 @@ const ErrorBoundarySync = async ({ req, res, next, cb }: Args) => {
     if (error instanceof ErrorResponse) {
       Trail.logResponse({
         message: error.message,
+        module,
         method: req.method,
         code: error.code,
         path: req.path
@@ -36,6 +38,7 @@ const ErrorBoundarySync = async ({ req, res, next, cb }: Args) => {
 
     Trail.logResponse({
       message: (error as Error).message,
+      module: module || '',
       method: req.method,
       code: 500,
       path: req.path
@@ -44,6 +47,14 @@ const ErrorBoundarySync = async ({ req, res, next, cb }: Args) => {
       status: 'failed',
       message: (error as Error).message || 'An error occured'
     })
+
+    Trail.logError({ 
+      message: (error as Error).message,
+      module,
+      type: (error as ErrorResponse).errorCode || 'INTERNAL_SERVER_ERROR',
+      metadata: error
+     })
+
   }
 }
 
@@ -64,6 +75,6 @@ export class ErrorResponse extends Error {
     if (status) this.status = status;
     if (data) this.data = data;
 
-    Trail.logError({ message, metadata: data })
+    Trail.logError({ message, type: errorCode, metadata: data })
   }
 }

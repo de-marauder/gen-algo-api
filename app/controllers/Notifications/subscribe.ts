@@ -4,6 +4,7 @@ import { NotificationEvent } from "../../services/Notification/Notifications"
 import { TypeUser } from "../../lib/Types/user"
 
 export const subscribe = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   req, res,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>
@@ -28,6 +29,7 @@ export const subscribe = (req: Request, res: Response) => ErrorBoundarySync({
 })
 
 export const unsubscribe = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   req, res,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>

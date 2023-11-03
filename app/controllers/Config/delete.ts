@@ -4,6 +4,7 @@ import { ConfigModel } from "../../models/Config";
 import { TypeUser } from "../../lib/Types/user";
 
 export const deleteConfig = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   res, req,
   cb: async () => {
     const configId = req.params.configId as string;

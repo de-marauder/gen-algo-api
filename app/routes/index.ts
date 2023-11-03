@@ -6,8 +6,8 @@ import { notesRouter } from "./notifications";
 
 export const baseRouter = Router();
 
-baseRouter.use('/api', authRouter);
-baseRouter.use('/api', userRouter);
-baseRouter.use('/api', configRouter);
-baseRouter.use('/api', runsRouter);
-baseRouter.use('/api', notesRouter);
+baseRouter.use('/auth', authRouter);
+baseRouter.use('/user', userRouter);
+baseRouter.use('/configs', configRouter);
+baseRouter.use('/runs', runsRouter);
+baseRouter.use('/notifications', notesRouter);

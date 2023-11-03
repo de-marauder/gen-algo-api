@@ -5,6 +5,9 @@ const ErrorSchema = new Schema(
     message: String,
     module: String,
     metadata: Schema.Types.Mixed
+  },
+  {
+    timestamps: true
   }
 ) 
 

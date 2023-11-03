@@ -3,17 +3,13 @@ import { deleteMany, deleteOne, getByUser } from "../controllers/Notifications/N
 import { userAuth } from "../middlewares/auth";
 import { subscribe, unsubscribe } from "../controllers/Notifications/subscribe";
 
-
 export const notesRouter = Router();
 
-// signup
-// login
-// logout
 notesRouter.use(userAuth)
-notesRouter.route('/notifications/')
+notesRouter.route('/')
 .get(getByUser)
 .delete(deleteMany)
-notesRouter.patch('/notifications/subscribe', subscribe)
-notesRouter.patch('/notifications/unsubscribe', unsubscribe)
-notesRouter.route('/notifications/:noteId').delete(deleteOne)
+notesRouter.patch('/subscribe', subscribe)
+notesRouter.patch('/unsubscribe', unsubscribe)
+notesRouter.route('/:noteId').delete(deleteOne)
 

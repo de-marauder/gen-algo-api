@@ -24,12 +24,13 @@ class Logger {
   }
 
   logResponse(data: { 
-    message: string,
-    code: number,
-    method: string,
-    path: string,
+    message: string;
+    module: string;
+    code: number;
+    method: string;
+    path: string;
   }) {
-    console.log(new Date(), ' ==> res ', data.method, ' - ', data.code, ' - ', data.path, ' - ', data.message)
+    console.log(new Date(), ' ==> res ', data.method, ' - ', data.code, ' - ', data.path, ' - ', data.message, ' - ', data.module)
   }
 }
 

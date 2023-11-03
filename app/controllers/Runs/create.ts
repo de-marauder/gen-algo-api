@@ -6,6 +6,7 @@ import { TypeUser } from "../../lib/Types/user";
 import { sendRunNotif } from "../../helpers/Notifications";
 
 export const createRun = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   req, res,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>

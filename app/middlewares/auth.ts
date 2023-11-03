@@ -5,6 +5,7 @@ import { TypeUser } from "../lib/Types/user";
 import { UserModel } from "../models/User";
 
 export const userAuth = (req: Request, res: Response, next: NextFunction) => ErrorBoundarySync({
+  module: __filename,
   req, res, next, cb
 })
 
@@ -21,7 +22,7 @@ const cb: Fn = async (req, res, next) => {
   const user = await UserModel.findOne({ email: decodedToken?.email });
   if (!user) throw new ErrorResponse({ code: 404, errorCode: 'USER_NOT_FOUND', message: 'The user with this token no longer exists' })
   if (user.token !== token) throw new ErrorResponse({ code: 401, errorCode: 'INVALID_TOKEN', message: 'Please login again' })
-
+  // console.log('user auth middleware after async call')
   req.body._user = user;
-  if (next) next();
+  // if (next) next();
 }

@@ -5,6 +5,7 @@ import { ConfigModel } from "../../models/Config";
 import { TypeUser } from "../../lib/Types/user";
 
 export const createConfig = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   res, req,
   cb: async () => {
     const configPayload = buildConfig(req.body.config as ConfigBody);

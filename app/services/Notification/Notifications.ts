@@ -1,7 +1,7 @@
 import path from 'path'
 import { initializeApp, App } from 'firebase-admin/app';
 import { credential } from 'firebase-admin';
-import { getMessaging, Notification } from 'firebase-admin/messaging';
+import { getMessaging, Message, Notification } from 'firebase-admin/messaging';
 import EventEmitter from 'node:events'
 import { NotificationModel } from '../../models/Notifications';
 import { UserModel } from '../../models/User';
@@ -15,8 +15,16 @@ interface INotifs {
     message?: string;
   };
   notification?: Notification,
+  fcmOptions?: {
+    link?: string;
+  }
   token: string
 }
+type PartialFields<T, K extends keyof T> = {
+  [P in K]?: T[P];
+} & {
+    [P in Exclude<keyof T, K>]: T[P];
+  };
 
 const serviceAccountFile = 'gen-algo-firebase-adminsdk-9t7qo-3d25902959.json';
 const serviceAccount = path.join(__dirname, serviceAccountFile);
@@ -77,7 +85,7 @@ class NotificationService extends EventEmitter {
   }
 
   private registerSendEvent() {
-    this.on('send', (payload: INotifs) => {
+    this.on('send', (payload: Message) => {
       getMessaging(this.app).send(payload)
         .then((response) => {
           // Response is a message ID string.
@@ -102,7 +110,7 @@ class NotificationService extends EventEmitter {
     })
   }
 
-  private buildNotificationPayload({ data, notification, token }: Required<INotifs>): INotifs {
+  private buildNotificationPayload({ data, notification, token }: PartialFields<Required<INotifs>, 'fcmOptions'>): INotifs {
     return {
       data: {
         userid: data.userid,
@@ -117,7 +125,7 @@ class NotificationService extends EventEmitter {
     }
   }
 
-  send(payload: Required<INotifs>) {
+  send(payload: PartialFields<Required<INotifs>, 'fcmOptions'>) {
     this.emit('send', this.buildNotificationPayload(payload))
     const args = [
       payload.data?.message,
