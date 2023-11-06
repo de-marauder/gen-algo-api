@@ -3,21 +3,36 @@ import ErrorBoundarySync, { ErrorResponse } from "../../helpers/ErrorBoundarySyn
 import { runAlgorithm } from "./runAlgo";
 import { ConfigModel } from "../../models/Config";
 import { TypeUser } from "../../lib/Types/user";
+import { sendRunNotif } from "../../helpers/Notifications";
+import Trail from "../../services/Logger";
 
 export const createRun = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   req, res,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>
-    const { config, error: e } = await buildPayload(req.body.configId);
-    if (e) throw e
-    const { run, error } = await runAlgorithm(req.body.configId, config, user._id);
-    if (error) throw error;
 
-    return res.status(201).json({
+    const { config, error: e } = await buildPayload(req.body.configId);
+
+    if (e) throw e
+    res.status(200).json({
       status: 'success',
-      message: 'Run completed',
-      data: run
+      message: 'Run started',
     })
+
+    await runAlgorithm(req.body.configId, config, user._id)
+      .then(({ run, error }) => {
+        sendRunNotif(run, error, user)
+      })
+      .catch((error) => {
+        Trail.logError({
+          module: __filename,
+          message: error.message,
+          type: 'RUN_ERROR',
+          metadata: error
+        })
+      });
+
   }
 })
 

@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
+import { TypeConfig } from "./Config";
 
-export type TypeRun = {
+export interface TypeRun {
   no: number;
   config: Types.ObjectId;
   outputCH4: number;

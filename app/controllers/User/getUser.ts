@@ -4,6 +4,7 @@ import { UserModel } from "../../models/User";
 import { TypeUser } from "../../lib/Types/user";
 
 export const getUser = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   req, res,
   cb: async (req, res) => {
     const user = req.body._user as TypeUser;

@@ -10,10 +10,10 @@ export const authRouter = Router();
 // signup
 // login
 // logout
-authRouter.route('/auth/signup').post(signup);
-authRouter.route('/auth/signin').post(signin);
-authRouter.route('/auth/signout').delete(userAuth, signout);
+authRouter.route('/signup').post(signup);
+authRouter.route('/signin').post(signin);
+authRouter.route('/signout').delete(userAuth, signout);
 
 export const userRouter = Router();
 
-authRouter.route('/user').get(userAuth, getUser);
+authRouter.route('/').get(userAuth, getUser);

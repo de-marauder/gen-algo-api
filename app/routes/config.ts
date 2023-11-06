@@ -10,6 +10,10 @@ import { createConfig } from "../controllers/Config/create";
 
 export const configRouter = Router();
 
-configRouter.get('/config/all', userAuth, getManyConfig);
-configRouter.route('/config/:configId').get(userAuth, getOneConfig).delete(userAuth, deleteConfig);
-configRouter.post('/config', userAuth, createConfig);
+configRouter.route('/')
+  .get(userAuth, getManyConfig)
+  .post(userAuth, createConfig);
+
+configRouter.route('/:configId')
+  .get(userAuth, getOneConfig)
+  .delete(userAuth, deleteConfig);

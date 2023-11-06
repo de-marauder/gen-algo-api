@@ -9,6 +9,7 @@ import { validateUserAuthPayload } from "../../helpers/validators";
 
 
 export const signup = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   req, res,
   cb: async (req, res) => {
     const newUser = {

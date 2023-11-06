@@ -8,6 +8,7 @@ import { env } from "../../helpers/env";
 import jwt from "jsonwebtoken";
 
 export const signin = (req: Request, res: Response) => ErrorBoundarySync({
+  module: __filename,
   req, res,
   cb: async (req, res) => {
 
@@ -45,16 +46,12 @@ const loginUser = async (payload: TypeUser) => {
   try {
     const user = await UserModel.findOne({
       $or: [
-        { username: payload.username }, //, password: hashedPassword },
-        { email: payload.email } //, password: hashedPassword }
+        { username: payload.username },
+        { email: payload.email }
       ]
     });
     if (!user) return { error: new ErrorResponse({ code: 404, errorCode: 'NOT_FOUND', message: 'Incorrect user details' }) };
     const passwordSame = await bcrypt.compare(payload.password as string, user.password as string)
-    const hashedPassword = await bcrypt.hash(payload.password as string, 10)
-    console.log(passwordSame)
-    console.log(hashedPassword)
-    console.log(await UserModel.findOne({ username: payload.username }))
     if (!passwordSame) return { error: new ErrorResponse({ code: 404, errorCode: 'INVALID_PASSWORD', message: 'Incorrect user password' }) };
 
     const newToken = jwt.sign({ username: payload.username, email: payload.email }, env('JWT_SECRET'));
@@ -65,7 +62,8 @@ const loginUser = async (payload: TypeUser) => {
         _id: user._id,
         username: user.username,
         email: user.email,
-        token: user.token
+        token: user.token,
+        fcmToken: user.fcmToken
       }
     }
   } catch (error) {
