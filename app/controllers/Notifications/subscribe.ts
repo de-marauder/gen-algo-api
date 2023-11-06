@@ -14,7 +14,6 @@ export const subscribe = (req: Request, res: Response) => ErrorBoundarySync({
       userid: user._id
     })
       .catch((error) => {
-        console.log(new Date(), ' ==> \n', error)
         throw new ErrorResponse({ message: 'Error while subscribing for notifications' })
       })
 
@@ -39,7 +38,6 @@ export const unsubscribe = (req: Request, res: Response) => ErrorBoundarySync({
       userid: user._id
     })
       .catch((error) => {
-        console.log(new Date(), ' ==> \n', error)
         throw new ErrorResponse({ message: 'Error while subscribing for notifications' })
       })
     if (error) throw error

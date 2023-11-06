@@ -3,9 +3,11 @@ import { TypeRun } from "../lib/Types/runs";
 import { NotificationEvent } from "../services/Notification/Notifications";
 import { TypeUser } from "../lib/Types/user";
 import { env } from "./env";
+import Trail from "../services/Logger";
+import { TypeConfig } from "../lib/Types/Config";
 
 export const sendRunNotif = (
-  run: void | (Document<unknown, {}, TypeRun> & TypeRun & {
+  run: void | (Document<unknown, {}, TypeRun> & (TypeRun) & {
     _id: Types.ObjectId;
   }) | undefined,
   error: Error | {
@@ -15,9 +17,15 @@ export const sendRunNotif = (
 ) => {
   if (error) {
     const errorMessage = `An error occured while processing your run.\n${error.message}`
+    Trail.logError({
+      message: error.message,
+      module: __filename,
+      type: 'ALGO RUNS ERROR',
+      metadata: error
+    })
     const errorPayload = {
       data: {
-        userid: user._id,
+        userid: user._id.toString(),
         message: errorMessage
       },
       notification: {
@@ -30,9 +38,15 @@ export const sendRunNotif = (
     NotificationEvent.send(errorPayload)
   } else if (!run) {
     const errorMessage = 'An error occured while processing your run. The run could not complete'
+    Trail.logError({
+      message: errorMessage,
+      module: __filename,
+      type: 'ALGO RUNS ERROR',
+      metadata: error
+    })
     const errorPayload = {
       data: {
-        userid: user._id,
+        userid: user._id.toString(),
         message: errorMessage
       },
       notification: {
@@ -46,8 +60,9 @@ export const sendRunNotif = (
   } else {
     const payload = {
       data: {
-        userid: user._id,
-        message: 'Your run has completed'
+        userid: user._id.toString(),
+        message: `Run #${run.no} for config "${(run.config as unknown as TypeConfig).name}" has completed`,
+        link: env('RUN_NOTIFICATION_LINK') + run._id.toString()
       },
       notification: {
         icon: '',
@@ -62,7 +77,7 @@ export const sendRunNotif = (
         Temperature = ${run.temperature}
         Steam to carbon ratio = ${run.steamToCarbonRatio}
 
-        click to see more
+        <button>click to see more</button>
 
         `
       },

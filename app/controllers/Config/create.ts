@@ -10,13 +10,10 @@ export const createConfig = (req: Request, res: Response) => ErrorBoundarySync({
   cb: async () => {
     const configPayload = buildConfig(req.body.config as ConfigBody);
     const user = req.body._user as Required<TypeUser>;
-    console.log('config user: ', user)
     configPayload.userid = user._id.toString();
     const config = await ConfigModel.create(configPayload).catch((error) => {
-      console.log(error);
       throw new ErrorResponse({ message: 'Error while creating config' })
     });
-    console.log('creaed config', config)
     return res.status(201).json({
       status: 'success',
       message: 'Configuration created',

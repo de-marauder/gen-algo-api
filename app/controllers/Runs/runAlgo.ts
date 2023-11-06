@@ -13,7 +13,8 @@ export const runAlgorithm = async (configId: string, payload: Config, userid: st
     if (data.error) return { error: data.error }
     // build result
     const runResult = buildResult(data.run.result, configId, data.run.timeTaken, userid)
-    const result = await RunModel.create(runResult)
+    const result = await (await RunModel.create(runResult))
+      .populate('config')
       .catch((error: Error) => {
         if (error) throw new Error(error.message)
       })

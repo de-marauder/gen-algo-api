@@ -13,6 +13,7 @@ interface INotifs {
   data?: {
     userid?: string;
     message?: string;
+    link?: string;
   };
   notification?: Notification,
   fcmOptions?: {
@@ -90,15 +91,6 @@ class NotificationService extends EventEmitter {
         .then((response) => {
           // Response is a message ID string.
           console.log('Successfully sent message:', response);
-          // this.model.create(payload.data)
-          //   .catch((error) => {
-          //     console.log('Error saving Notification')
-          //     Trail.logError({
-          //       message: 'Error saving Notification',
-          //       module: __filename,
-          //       metadata: error
-          //     })
-          //   })
         })
         .catch((error) => {
           Trail.logError({
@@ -130,17 +122,28 @@ class NotificationService extends EventEmitter {
     const args = [
       payload.data?.message,
       payload.notification?.body,
+      payload.data?.link,
       payload.data?.userid
     ]
     if (!args[0]) { throw new Error('Could not save Notification.') }
     if (!args[1]) { throw new Error('Could not save Notification.') }
-    if (!args[2]) { throw new Error('Could not save Notification.') }
+    if (!args[3]) { throw new Error('Could not save Notification.') }
 
-    if (args.length === 2) this.save(...args)
+    if (args.length === 4) this.save(...args)
+    else {
+      Trail.logError({
+        message: 'Notification not saved',
+        module: __filename,
+        metadata: {
+          details: `Could not save notificaiton. Expected 3 arguments got ${args.length}`,
+          notification: payload
+        }
+      })
+    }
   }
 
-  private save(message?: string, body?: string, userid?: string) {
-    this.model.create({ message, body, userid }).catch((error) => {
+  private save(message?: string, body?: string, link?: string,  userid?: string) {
+    this.model.create({ message, body, link, userid }).catch((error) => {
       Trail.logError({
         message: 'Notification not saved',
         module: __filename,

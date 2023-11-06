@@ -11,7 +11,6 @@ export const deleteConfig = (req: Request, res: Response) => ErrorBoundarySync({
     const user = req.body._user as Required<TypeUser>;
 
     const config = await ConfigModel.findOneAndDelete({ _id: configId, userid: user._id }).catch((error) => {
-      console.log(error);
       throw new ErrorResponse({ message: 'Error while deleting config' })
     });
     if (!config) throw new ErrorResponse({ code: 404, message: `Config with id ${configId} does not exist`, errorCode: 'CONFIG_NOT_FOUND' })

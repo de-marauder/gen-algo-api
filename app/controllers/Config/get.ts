@@ -11,7 +11,6 @@ export const getOneConfig = (req: Request, res: Response) => ErrorBoundarySync({
     const user = req.body._user as TypeUser;
     const configId = req.params.configId as string;
     const config = await ConfigModel.findOne({ _id: configId, userid: user._id?.toString() }).catch((error) => {
-      console.log(error);
       throw new ErrorResponse({ errorCode: 'CONFIG_NOT_FOUND', message: 'Error while getting config' })
     });
     if (!config) throw new ErrorResponse({ code: 404, message: `Configuration with id ${configId} not found`, errorCode: 'CONFIG_NOT_FOUND' })
@@ -36,7 +35,6 @@ export const getManyConfig = (req: Request, res: Response) => ErrorBoundarySync(
     }
 
     const configs = await ConfigModel.find(query).catch((error) => {
-      console.log(error);
       throw new ErrorResponse({ errorCode: 'CONFIG_NOT_FOUND', message: 'Error while getting configurations' })
     });
     if (configs.length < 1) throw new ErrorResponse({ status: 'success', code: 200, message: `${user.username} has no configurations set`, errorCode: 'CONFIG_NOT_FOUND', data: [] })

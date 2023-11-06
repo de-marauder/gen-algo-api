@@ -4,6 +4,7 @@ const NotificationSchema = new Schema(
   {
     userid: { type: Schema.Types.ObjectId, ref: 'UserModel' },
     message: String,
+    link: String
   },
   {
     timestamps: true

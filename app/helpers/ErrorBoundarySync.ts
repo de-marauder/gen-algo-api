@@ -18,7 +18,6 @@ const ErrorBoundarySync = async({ module, req, res, next, cb }: Args) => {
     })
     if (next) next()
   } catch (error) {
-    // console.log('Error occured => \n', error)
 
     if (error instanceof ErrorResponse) {
       Trail.logResponse({
@@ -36,6 +35,11 @@ const ErrorBoundarySync = async({ module, req, res, next, cb }: Args) => {
     }
 
 
+    res.status(500).json({
+      status: 'failed',
+      message: (error as Error).message || 'An error occured'
+    })
+   
     Trail.logResponse({
       message: (error as Error).message,
       module: module || '',
@@ -43,11 +47,6 @@ const ErrorBoundarySync = async({ module, req, res, next, cb }: Args) => {
       code: 500,
       path: req.path
     })
-    res.status(500).json({
-      status: 'failed',
-      message: (error as Error).message || 'An error occured'
-    })
-
     Trail.logError({ 
       message: (error as Error).message,
       module,

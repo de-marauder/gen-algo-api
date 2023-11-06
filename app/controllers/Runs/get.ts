@@ -11,7 +11,6 @@ export const getOneRun = (req: Request, res: Response) => ErrorBoundarySync({
     const runId = req.params.runId as string
     const run = await RunModel.findOne({ _id: runId, userid: user._id })
       .populate('config').catch((error) => {
-        console.log(error);
         throw new ErrorResponse({ message: 'Error occured while getting run', errorCode: 'RUN_NOT_FOUND' })
       })
     if (!run)
@@ -37,7 +36,6 @@ export const getAllRuns = (req: Request, res: Response) => ErrorBoundarySync({
     const runs = await RunModel.find(query)
       .populate('config')
       .catch((error) => {
-        console.log(error);
         throw new ErrorResponse({ message: 'Error occured while getting run', errorCode: 'RUN_NOT_FOUND' })
       })
     if (runs.length < 1)

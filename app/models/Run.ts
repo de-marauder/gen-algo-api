@@ -7,7 +7,8 @@ const RunSchema = new Schema<TypeRun>(
     no: Number,
     config: {
       type: Schema.Types.ObjectId,
-      required: true
+      required: true,
+      ref: 'ConfigModel'
     },
     outputCH4: {
       required: true,

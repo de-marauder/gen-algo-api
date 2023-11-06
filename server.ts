@@ -53,6 +53,10 @@ start().then(() => {
     console.log(`================= App Listening on port ${PORT} =================`)
   })
 }).catch((error) => {
-  console.log(new Date(), ' DB start err ', ' => ', error.message)
-  console.log(error.stack)
+  Trail.logError({
+    module: __filename,
+    type: 'DB_ERROR',
+    message: error.message,
+    metadata: error
+  });
 })

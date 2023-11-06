@@ -4,6 +4,7 @@ import { runAlgorithm } from "./runAlgo";
 import { ConfigModel } from "../../models/Config";
 import { TypeUser } from "../../lib/Types/user";
 import { sendRunNotif } from "../../helpers/Notifications";
+import Trail from "../../services/Logger";
 
 export const createRun = (req: Request, res: Response) => ErrorBoundarySync({
   module: __filename,
@@ -19,9 +20,19 @@ export const createRun = (req: Request, res: Response) => ErrorBoundarySync({
       message: 'Run started',
     })
 
-    const { run, error } = await runAlgorithm(req.body.configId, config, user._id);
+    await runAlgorithm(req.body.configId, config, user._id)
+      .then(({ run, error }) => {
+        sendRunNotif(run, error, user)
+      })
+      .catch((error) => {
+        Trail.logError({
+          module: __filename,
+          message: error.message,
+          type: 'RUN_ERROR',
+          metadata: error
+        })
+      });
 
-    sendRunNotif(run, error, user)
   }
 })
 
