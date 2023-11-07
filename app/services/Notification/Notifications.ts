@@ -27,8 +27,8 @@ type PartialFields<T, K extends keyof T> = {
     [P in Exclude<keyof T, K>]: T[P];
   };
 
-const serviceAccountFile = 'gen-algo-firebase-adminsdk-9t7qo-3d25902959.json';
-const serviceAccount = path.join(__dirname, serviceAccountFile);
+const serviceAccountFile = './fcm-service-account.json';
+const serviceAccount = path.join(serviceAccountFile);
 
 class NotificationService extends EventEmitter {
 

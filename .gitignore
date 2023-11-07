@@ -2,3 +2,4 @@ build
 node_modules
 .env
 **/gen-algo-firebase-admin*
+fcm-service-account.json
