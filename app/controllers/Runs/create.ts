@@ -20,7 +20,7 @@ export const createRun = (req: Request, res: Response) => ErrorBoundarySync({
       message: 'Run started',
     })
 
-    await runAlgorithm(req.body.configId, config, user._id)
+    runAlgorithm(req.body.configId, config, user._id)
       .then(({ run, error }) => {
         sendRunNotif(run, error, user)
       })
