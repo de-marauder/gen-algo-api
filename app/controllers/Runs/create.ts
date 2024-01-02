@@ -6,7 +6,7 @@ import { TypeUser } from "../../lib/Types/user";
 import { sendRunNotif } from "../../helpers/Notifications";
 import Trail from "../../services/Logger";
 
-export const createRun = (req: Request, res: Response) => ErrorBoundarySync({
+export const createRun = async (req: Request, res: Response) => ErrorBoundarySync({
   module: __filename,
   req, res,
   cb: async (req, res) => {

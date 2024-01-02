@@ -11,11 +11,12 @@ type Args = {
   cb: Fn;
 }
 
-const ErrorBoundarySync = async({ module, req, res, next, cb }: Args) => {
+const ErrorBoundarySync = async ({ module, req, res, next, cb }: Args) => {
   try {
-    await cb(req, res, next).catch((error) => {
-      throw error
-    })
+    cb(req, res, next)
+      .catch((error) => {
+        throw error
+      })
     if (next) next()
   } catch (error) {
 
@@ -39,7 +40,7 @@ const ErrorBoundarySync = async({ module, req, res, next, cb }: Args) => {
       status: 'failed',
       message: (error as Error).message || 'An error occured'
     })
-   
+
     Trail.logResponse({
       message: (error as Error).message,
       module: module || '',
@@ -47,12 +48,12 @@ const ErrorBoundarySync = async({ module, req, res, next, cb }: Args) => {
       code: 500,
       path: req.path
     })
-    Trail.logError({ 
+    Trail.logError({
       message: (error as Error).message,
       module,
       type: (error as ErrorResponse).errorCode || 'INTERNAL_SERVER_ERROR',
       metadata: error
-     })
+    })
 
   }
 }
