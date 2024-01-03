@@ -3,30 +3,50 @@ import { runAlgo } from "../../lib/runAlgo";
 import { AlgoResult, Config } from "../../lib/Types/algo";
 import { SMRGeneticsAlgorithm } from "../../lib/Algorithm/SMR";
 import Trail from "../../services/Logger";
+import { TypeRun } from "../../lib/Types/runs";
+import { Connection, Document } from "mongoose";
+import { Types } from "mongoose";
 
-export const runAlgorithm = async (configId: string, payload: Config, userid: string) => {
-  try {
+export type Result = Omit<Document<unknown, {}, TypeRun> & TypeRun & {
+  _id: Types.ObjectId;
+}, never>
 
-    const config = { ...payload } as Config;
-    // run algorithm
-    const data = await runAlgo(config);
-    if (data.error) return { error: data.error }
-    // build result
-    const runResult = buildResult(data.run.result, configId, data.run.timeTaken, userid)
-    const result = await (await RunModel.create(runResult))
-      .populate('config')
-      .catch((error: Error) => {
-        if (error) throw new Error(error.message)
+export const runAlgorithm = async (configId: string, payload: Config, userid: string, db: Connection): Promise<
+  { run: Result, error?: null } |
+  { error: { message: string }, run?: null }
+> => {
+  return new Promise((resolve, reject) => {
+    try {
+      const config = { ...payload } as Config;
+      // run algorithm
+      runAlgo(config).then((data) => {
+        if (data.error) return { error: data.error }
+        // build result
+        const runResult = buildResult(data.run.result, configId, data.run.timeTaken, userid)
+        db.models.RunModel.create(runResult).then((doc) => {
+          doc.populate('config').then((result: Result) => {
+            return resolve({ run: result })
+          }).catch((error: Error) => {
+            Trail.logError({
+              message: (error as Error).message || 'Error while creating run',
+              module: __filename,
+              metadata: error,
+              db: db
+            })
+            return reject({ error: { message: 'Error while creating run' } })
+          })
+        })
+      });
+    } catch (error) {
+      Trail.logError({
+        message: (error as Error).message || 'Error while creating run',
+        module: __filename,
+        metadata: error,
+        db
       })
-    return { run: result }
-  } catch (error) {
-    Trail.logError({
-      message: (error as Error).message || 'Error while creating run',
-      module: __filename,
-      metadata: error
-    })
-    return { error: { message: 'Error while creating run' } }
-  }
+      return reject({ error: { message: 'Error while creating run' } })
+    }
+  })
 }
 
 const buildResult = (data: SMRGeneticsAlgorithm, configId: string, timeTaken: string, userid: string): AlgoResult => {

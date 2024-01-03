@@ -1,14 +1,16 @@
-import { Request, Response } from "express";
-import ErrorBoundarySync, { ErrorResponse } from "../../helpers/ErrorBoundarySync";
-import { runAlgorithm } from "./runAlgo";
+import path from 'path'
+import { Worker, isMainThread, parentPort } from 'worker_threads';
+import { NextFunction, Request, Response } from "express";
+import ErrorBoundary, { ErrorResponse } from "../../helpers/ErrorBoundary";
+import { Result, runAlgorithm } from "./runAlgo";
 import { ConfigModel } from "../../models/Config";
 import { TypeUser } from "../../lib/Types/user";
 import { sendRunNotif } from "../../helpers/Notifications";
 import Trail from "../../services/Logger";
 
-export const createRun = async (req: Request, res: Response) => ErrorBoundarySync({
+export const createRun = async (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  req, res,
+  req, res, next,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>
 
@@ -18,21 +20,34 @@ export const createRun = async (req: Request, res: Response) => ErrorBoundarySyn
     res.status(200).json({
       status: 'success',
       message: 'Run started',
-    })
+    });
 
-    runAlgorithm(req.body.configId, config, user._id)
-      .then(({ run, error }) => {
-        sendRunNotif(run, error, user)
-      })
-      .catch((error) => {
-        Trail.logError({
-          module: __filename,
-          message: error.message,
-          type: 'RUN_ERROR',
-          metadata: error
-        })
-      });
+    // Create a new worker thread for the long-running task
+    const p = path.join(path.dirname(path.join(__dirname, '/..')), 'services', 'workers', 'run-algo.js')
+    // console.log("worker path: ", p)
+    const worker = new Worker(p);
 
+    // Listen for messages from the worker thread
+    worker.on('message', (message: string) => {
+      // Handle the message received from the worker (e.g., task completion)
+      const m = JSON.parse(message) as {
+        message: string,
+        run: Result, error: Error | ErrorResponse
+      }
+      // console.log(`Received message from worker: ${m}`);
+      sendRunNotif(m.run, m.error, user)
+      console.log('Algo run done')
+      // You can perform any cleanup or other operations here
+    });
+
+    // Send data to the worker thread (if needed)
+    const m = {
+      configId: req.body.configId,
+      config: config,
+      user
+    }
+    worker.postMessage(JSON.stringify(m));
+    console.log('Finished')
   }
 })
 

@@ -1,11 +1,11 @@
-import { Request, Response } from "express"
-import ErrorBoundarySync, { ErrorResponse } from "../../helpers/ErrorBoundarySync"
+import { NextFunction, Request, Response } from "express"
+import ErrorBoundary, { ErrorResponse } from "../../helpers/ErrorBoundary"
 import { NotificationEvent } from "../../services/Notification/Notifications"
 import { TypeUser } from "../../lib/Types/user"
 
-export const subscribe = (req: Request, res: Response) => ErrorBoundarySync({
+export const subscribe = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  req, res,
+  req, res, next,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>
 
@@ -27,9 +27,9 @@ export const subscribe = (req: Request, res: Response) => ErrorBoundarySync({
   }
 })
 
-export const unsubscribe = (req: Request, res: Response) => ErrorBoundarySync({
+export const unsubscribe = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  req, res,
+  req, res, next,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>
 

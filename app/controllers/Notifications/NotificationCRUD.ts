@@ -1,4 +1,4 @@
-import { ErrorResponse } from "../../helpers/ErrorBoundarySync"
+import { ErrorResponse } from "../../helpers/ErrorBoundary"
 import { NotificationModel } from "../../models/Notifications"
 
 export const getNotificationsByUser = async (userid: string) => {

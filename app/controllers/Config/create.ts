@@ -1,12 +1,12 @@
-import { Request, Response } from "express";
-import ErrorBoundarySync, { ErrorResponse } from "../../helpers/ErrorBoundarySync";
+import { NextFunction, Request, Response } from "express";
+import ErrorBoundary, { ErrorResponse } from "../../helpers/ErrorBoundary";
 import { TypeConfig } from "../../lib/Types/Config";
 import { ConfigModel } from "../../models/Config";
 import { TypeUser } from "../../lib/Types/user";
 
-export const createConfig = (req: Request, res: Response) => ErrorBoundarySync({
+export const createConfig = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  res, req,
+  res, req, next,
   cb: async () => {
     const configPayload = buildConfig(req.body.config as ConfigBody);
     const user = req.body._user as Required<TypeUser>;

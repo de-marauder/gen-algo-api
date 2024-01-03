@@ -1,6 +1,8 @@
-import { Schema, model } from 'mongoose';
-import { ErrorResponse } from '../helpers/ErrorBoundarySync';
+import mongoose, { Schema, model } from 'mongoose';
+import { ErrorResponse } from '../helpers/ErrorBoundary';
 import { TypeRun } from '../lib/Types/runs';
+import { db, waitForDB } from '../config/db';
+import { pr } from '../helpers/promise';
 
 const RunSchema = new Schema<TypeRun>(
   {
@@ -57,10 +59,15 @@ const RunSchema = new Schema<TypeRun>(
 )
 
 RunSchema.pre('save', async function () {
+  // console.log("b4 pre savemodels: ", db.models)
   console.log('running runs presave hook')
   if (!this.no) {
-    const length = await RunModel.countDocuments({ config: this.config, userid: this.userid });
-    this.no = length;
+    waitForDB(() => {
+      db.models.RunModel.countDocuments({ config: this.config, userid: this.userid }).then((length) => {
+        this.no = length;
+        console.log("------------ Run saved --------------")
+      });
+    })
   }
 })
 

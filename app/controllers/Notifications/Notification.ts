@@ -1,11 +1,11 @@
-import { Request, Response } from "express";
-import ErrorBoundarySync from "../../helpers/ErrorBoundarySync";
+import { NextFunction, Request, Response } from "express";
+import ErrorBoundary from "../../helpers/ErrorBoundary";
 import { deleteAllNotificationByUser, deleteOneNotificationByUser, getAllNotifications, getNotificationsByUser } from "./NotificationCRUD";
 import { TypeUser } from "../../lib/Types/user";
 
-export const getByUser = (req: Request, res: Response) => ErrorBoundarySync({
+export const getByUser = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  req, res,
+  req, res, next,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>
 
@@ -19,9 +19,9 @@ export const getByUser = (req: Request, res: Response) => ErrorBoundarySync({
     })
   }
 })
-export const getAll = (req: Request, res: Response) => ErrorBoundarySync({
+export const getAll = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  req, res,
+  req, res, next,
   cb: async (req, res) => {
 
     const { data, error } = await getAllNotifications()
@@ -35,9 +35,9 @@ export const getAll = (req: Request, res: Response) => ErrorBoundarySync({
   }
 })
 
-export const deleteOne = (req: Request, res: Response) => ErrorBoundarySync({
+export const deleteOne = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  req, res,
+  req, res, next,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>
     const noteId = req.params.noteId as string
@@ -53,9 +53,9 @@ export const deleteOne = (req: Request, res: Response) => ErrorBoundarySync({
   }
 })
 
-export const deleteMany = (req: Request, res: Response) => ErrorBoundarySync({
+export const deleteMany = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  req, res,
+  req, res, next,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>
 

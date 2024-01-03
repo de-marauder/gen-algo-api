@@ -5,8 +5,9 @@ import { getMessaging, Message, Notification } from 'firebase-admin/messaging';
 import EventEmitter from 'node:events'
 import { NotificationModel } from '../../models/Notifications';
 import { UserModel } from '../../models/User';
-import { ErrorResponse } from '../../helpers/ErrorBoundarySync';
+import { ErrorResponse } from '../../helpers/ErrorBoundary';
 import Trail from '../Logger';
+import { db } from '../../config/db';
 // import serviceAccount from './gen-algo-firebase-adminsdk-9t7qo-3d25902959.json'
 
 interface INotifs {
@@ -45,7 +46,8 @@ class NotificationService extends EventEmitter {
       Trail.logError({
         message: 'FCM Not initialized',
         module: __filename,
-        metadata: error
+        metadata: error,
+        db
       })
     }
 
@@ -96,7 +98,8 @@ class NotificationService extends EventEmitter {
           Trail.logError({
             message: 'Error sending Notification',
             module: __filename,
-            metadata: error
+            metadata: error,
+            db
           })
         });
     })
@@ -142,12 +145,13 @@ class NotificationService extends EventEmitter {
     }
   }
 
-  private save(message?: string, body?: string, link?: string,  userid?: string) {
+  private save(message?: string, body?: string, link?: string, userid?: string) {
     this.model.create({ message, body, link, userid }).catch((error) => {
       Trail.logError({
         message: 'Notification not saved',
         module: __filename,
-        metadata: error
+        metadata: error,
+        db
       })
     })
   }

@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
-import ErrorBoundarySync, { ErrorResponse } from "../../helpers/ErrorBoundarySync";
+import { Request, Response, NextFunction } from "express";
+import ErrorBoundary, { ErrorResponse } from "../../helpers/ErrorBoundary";
 import { UserModel } from "../../models/User";
 import { TypeUser } from "../../lib/Types/user";
 
-export const getUser = (req: Request, res: Response) => ErrorBoundarySync({
+export const getUser = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
   req, res,
   cb: async (req, res) => {

@@ -1,5 +1,5 @@
-import { Request, Response } from "express";
-import ErrorBoundarySync, { ErrorResponse } from "../../helpers/ErrorBoundarySync";
+import { Request, Response, NextFunction } from "express";
+import ErrorBoundary, { ErrorResponse } from "../../helpers/ErrorBoundary";
 import { validateUserAuthPayload } from "../../helpers/validators";
 import { TypeUser } from "../../lib/Types/user";
 import { UserModel } from "../../models/User";
@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 import { env } from "../../helpers/env";
 import jwt from "jsonwebtoken";
 
-export const signin = (req: Request, res: Response) => ErrorBoundarySync({
+export const signin = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
   req, res,
   cb: async (req, res) => {

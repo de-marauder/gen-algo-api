@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken'
-import ErrorBoundarySync, { Fn, ErrorResponse } from "../helpers/ErrorBoundarySync";
+import ErrorBoundary, { Fn, ErrorResponse } from "../helpers/ErrorBoundary";
 import { TypeUser } from "../lib/Types/user";
 import { UserModel } from "../models/User";
 
-export const userAuth = (req: Request, res: Response, next: NextFunction) => ErrorBoundarySync({
+export const userAuth = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  req, res, next, cb
+  req, res, next, cb, //type: 'sync'
 })
 
 const cb: Fn = async (req, res, next) => {

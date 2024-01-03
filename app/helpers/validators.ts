@@ -1,5 +1,5 @@
 import { TypeUser } from "../lib/Types/user"
-import { ErrorResponse } from "./ErrorBoundarySync"
+import { ErrorResponse } from "./ErrorBoundary"
 import { emailRegex, passwordRegex } from "./regexPatterns"
 
 export const validateUserAuthPayload = (payload: TypeUser) => {

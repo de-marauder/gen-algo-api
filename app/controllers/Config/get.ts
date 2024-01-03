@@ -1,12 +1,12 @@
-import { Request, Response } from 'express';
-import ErrorBoundarySync, { ErrorResponse } from '../../helpers/ErrorBoundarySync';
+import { Request, Response, NextFunction } from 'express';
+import ErrorBoundary, { ErrorResponse } from '../../helpers/ErrorBoundary';
 import { ConfigModel } from '../../models/Config';
 import { UserModel } from '../../models/User';
 import { TypeUser } from '../../lib/Types/user';
 
-export const getOneConfig = (req: Request, res: Response) => ErrorBoundarySync({
+export const getOneConfig = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  res, req,
+  res, req, next,
   cb: async () => {
     const user = req.body._user as TypeUser;
     const configId = req.params.configId as string;
@@ -23,9 +23,9 @@ export const getOneConfig = (req: Request, res: Response) => ErrorBoundarySync({
   }
 })
 
-export const getManyConfig = (req: Request, res: Response) => ErrorBoundarySync({
+export const getManyConfig = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  res, req,
+  res, req, next,
   cb: async () => {
     const user = req.body._user as TypeUser;
     const query: {

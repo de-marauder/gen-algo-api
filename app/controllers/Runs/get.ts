@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
-import ErrorBoundarySync, { ErrorResponse } from "../../helpers/ErrorBoundarySync";
+import { Request, Response, NextFunction } from "express";
+import ErrorBoundary, { ErrorResponse } from "../../helpers/ErrorBoundary";
 import { RunModel } from "../../models/Run";
 import { TypeUser } from "../../lib/Types/user";
 
-export const getOneRun = (req: Request, res: Response) => ErrorBoundarySync({
+export const getOneRun = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
   req, res,
   cb: async (req, res) => {
@@ -23,7 +23,7 @@ export const getOneRun = (req: Request, res: Response) => ErrorBoundarySync({
   }
 })
 
-export const getAllRuns = (req: Request, res: Response) => ErrorBoundarySync({
+export const getAllRuns = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
   req, res,
   cb: async (req, res) => {
@@ -32,6 +32,10 @@ export const getAllRuns = (req: Request, res: Response) => ErrorBoundarySync({
       userid: user?._id?.toString() as string
     }
     if (req.query.configId) query.config = req.query.configId as string;
+
+    setTimeout(() => {
+      console.log('timeout done')
+    }, 2000)
 
     const runs = await RunModel.find(query)
       .populate('config')

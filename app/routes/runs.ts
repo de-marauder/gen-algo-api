@@ -9,7 +9,7 @@ import { getAllRuns, getOneRun } from "../controllers/Runs/get";
 import { deleteOneRun } from "../controllers/Runs/delete";
 import { createRun } from "../controllers/Runs/create";
 
-export const runsRouter = Router();
+export const runsRouter = Router({ mergeParams: true });
 
 runsRouter.route('/:runId')
   .get(userAuth, getOneRun)

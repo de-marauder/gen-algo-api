@@ -5,14 +5,14 @@ import { TypeUser } from "../lib/Types/user";
 import { env } from "./env";
 import Trail from "../services/Logger";
 import { TypeConfig } from "../lib/Types/Config";
+import { Result } from "../controllers/Runs/runAlgo";
+import { db } from "../config/db";
 
 export const sendRunNotif = (
-  run: void | (Document<unknown, {}, TypeRun> & (TypeRun) & {
-    _id: Types.ObjectId;
-  }) | undefined,
+  run: null | Result | undefined,
   error: Error | {
     message: string;
-  } | undefined,
+  } | undefined | null,
   user: Required<TypeUser>
 ) => {
   if (error) {
@@ -21,7 +21,8 @@ export const sendRunNotif = (
       message: error.message,
       module: __filename,
       type: 'ALGO RUNS ERROR',
-      metadata: error
+      metadata: error,
+      db
     })
     const errorPayload = {
       data: {
@@ -42,7 +43,8 @@ export const sendRunNotif = (
       message: errorMessage,
       module: __filename,
       type: 'ALGO RUNS ERROR',
-      metadata: error
+      metadata: error,
+      db
     })
     const errorPayload = {
       data: {
