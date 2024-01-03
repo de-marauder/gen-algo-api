@@ -10,6 +10,7 @@ The postman documentation for endpoints is available in [json](./Gen-Algo-API.po
 - Logging
 - Authentication (JWT Based)
 - Notifications (FCM)
+- Multi threading using nodeJs worker threads
 
 ## Built With
 - Typescript
