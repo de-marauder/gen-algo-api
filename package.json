@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "yarn build && nodemon build/server.js",
+    "dev": "nodemon",
     "build": "npx tsc -p .",
     "prod": "node build/server.js"
   },

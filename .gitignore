@@ -4,3 +4,4 @@ node_modules
 **/gen-algo-firebase-admin*
 fcm-service-account.json
 test.js
+yarn-error*

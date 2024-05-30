@@ -7,7 +7,6 @@ import { db, loadModels, waitForDB } from './app/config/db';
 import { baseRouter } from './app/routes';
 import Trail from './app/services/Logger';
 import { pr } from './app/helpers/promise';
-import mongoose, { Connection } from 'mongoose';
 import { CustomResponse } from './app/helpers/ErrorBoundary';
 
 process.on('uncaughtException', (error) => {
@@ -23,9 +22,10 @@ app.use(cookieParser());
 app.use(cors())
 
 const reqLogger = (req: Request, res: Response, next: NextFunction) => {
+  // console.log(req)
   Trail.logRequest({
     method: req.method,
-    path: req.url,
+    path: req.baseUrl,
     host: req.hostname,
     protocol: req.protocol,
     from: req.ip
@@ -40,26 +40,30 @@ const resLogger = async (req: Request, res: CustomResponse) => {
       message: res.message || 'PATH_NOT_FOUND',
       method: req.method,
       code: res.statusCode,
-      path: req.path,
+      path: req.baseUrl,
       host: req.hostname,
       protocol: req.protocol
     })
   })
-}
+  res.end()
+};
+
+app.use('/api/health', reqLogger, (_, res) => res.send('ok'));
 
 app.use('/api', reqLogger, baseRouter, resLogger);
+
+app.use((_, res) => {
+  res.status(500).json({
+    status: 'failed',
+    message: 'erro occured'
+  })
+});
 
 app.all('*', reqLogger, (req: Request, res: Response, next: NextFunction) => {
   res.status(404).end(`This path ${req.path} does not exist`)
   next()
 }, resLogger)
 
-app.use((req, res) => {
-  res.status(500).json({
-    status: 'failed',
-    message: 'erro occured'
-  })
-})
 
 pr()
   .then(() => {

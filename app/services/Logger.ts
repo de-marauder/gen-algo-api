@@ -32,7 +32,7 @@ class Logger {
     protocol: string;
     host: string
   }) {
-    console.log(new Date(), ' ==> req ', data.method, ' - ', data.from, ' - ', data.protocol + '://' + data.host + '/api' + data.path)
+    console.log(new Date(), ' ==> req ', data.method, ' - ', data.from, ' - ', data.protocol + '://' + data.host + data.path)
   }
 
   logResponse(data: {
@@ -44,7 +44,7 @@ class Logger {
     protocol: string;
     path: string;
   }) {
-    console.log(new Date(), ' ==> res ', data.method, ' - ', data.code, ' - ', data.protocol + '://' + data.host + '/api' + data.path, ' - ', data.message, ' - ', data.module)
+    console.log(new Date(), ' ==> res ', data.method, ' - ', data.code, ' - ', data.protocol + '://' + data.host + data.path, ' - ', data.message, ' - ', data.module)
   }
 }
 
