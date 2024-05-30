@@ -37,7 +37,9 @@ jobs:
           echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
 
       - name: Write fcm config
-        run: echo ${{ secrets.FCM_CONFIG }} > fcm-service-account.json
+        run: echo '
+          ${{ secrets.FCM_CONFIG }}
+          ' > fcm-service-account.json
 
       - name: Build Docker image
         run: |
