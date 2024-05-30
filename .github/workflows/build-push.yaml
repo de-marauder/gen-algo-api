@@ -36,6 +36,9 @@ jobs:
           echo "COMMIT_HASH=${COMMIT_HASH}" >> $GITHUB_ENV
           echo "BRANCH_NAME=${BRANCH_NAME}" >> $GITHUB_ENV
 
+      - name: Write fcm config
+        run: cat ${{ secrets.FCM_CONFIG }} > fcm-service-account.json
+
       - name: Build Docker image
         run: |
           docker build -t ${{ env.PROJECT_NAME }}:${{ env.COMMIT_HASH }}-${{ env.BRANCH_NAME }} .
