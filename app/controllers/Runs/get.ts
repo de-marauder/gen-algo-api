@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import ErrorBoundary, { ErrorResponse } from "../../helpers/ErrorBoundary";
 import { RunModel } from "../../models/Run";
 import { TypeUser } from "../../lib/Types/user";
+import Trail from "../../services/Logger";
 
 export const getOneRun = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
@@ -11,6 +12,7 @@ export const getOneRun = (req: Request, res: Response, next: NextFunction) => Er
     const runId = req.params.runId as string
     const run = await RunModel.findOne({ _id: runId, userid: user._id })
       .populate('config').catch((error) => {
+        Trail.logError(error);
         throw new ErrorResponse({ message: 'Error occured while getting run', errorCode: 'RUN_NOT_FOUND' })
       })
     if (!run)
@@ -33,13 +35,11 @@ export const getAllRuns = (req: Request, res: Response, next: NextFunction) => E
     }
     if (req.query.configId) query.config = req.query.configId as string;
 
-    setTimeout(() => {
-      console.log('timeout done')
-    }, 2000)
 
     const runs = await RunModel.find(query)
       .populate('config')
       .catch((error) => {
+        Trail.logError(error)
         throw new ErrorResponse({ message: 'Error occured while getting run', errorCode: 'RUN_NOT_FOUND' })
       })
     if (runs.length < 1)

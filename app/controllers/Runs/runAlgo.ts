@@ -64,6 +64,15 @@ const buildResult = (data: SMRGeneticsAlgorithm, configId: string, timeTaken: st
     numberOfGenerationsRan: data.generations.length,
     stopCondition: data.stoppedBy,
     error: data.population.population[0].error,
+    generations: data.generations.map(generation => {
+      return {
+        error: generation[0].error,
+        hydrogen: generation[0].fitness,
+        methane: generation[0].a,
+        CO: generation[0].b,
+        CO2: generation[0].y,
+      }
+    }),
     timeTaken,
     userid
   };

@@ -1,12 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import ErrorBoundary, { ErrorResponse } from "../../helpers/ErrorBoundary";
-import { TypeConfig } from "../../lib/Types/Config";
 import { ConfigModel } from "../../models/Config";
 import { TypeUser } from "../../lib/Types/user";
 
 export const createConfig = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  res, req, next,
+  res, req,
   cb: async () => {
     const configPayload = buildConfig(req.body.config as ConfigBody);
     const user = req.body._user as Required<TypeUser>;

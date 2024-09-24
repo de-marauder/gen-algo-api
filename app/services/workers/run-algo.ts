@@ -6,40 +6,35 @@ import Trail from "../Logger";
 import { db } from "../../config/db";
 import { TypeUser } from "../../lib/Types/user";
 import { Config } from "../../lib/Types/algo";
-import { loadModels } from "../../config/db";
 
 
-console.log("Outside B4 Inside Worker thread")
 try {
-  console.log("B4 Inside Worker thread")
   if (!isMainThread && parentPort) {
-    // loadModels();
-    // console.log(parentPort)
-    // console.log("Models from inside worker: ", db)
     // Code inside here runs in the worker thread
     console.log("Inside Worker thread")
     // Listen for messages from the main thread
     parentPort.on('message', (message: string) => {
       // Perform the long-running task
-      // console.log('Worker received message: ', message)
-      const { configId, config, user } = JSON.parse(message) as {
+      const { configId, config, numberOfRuns, user } = JSON.parse(message) as {
         configId: string;
         config: Config;
+        numberOfRuns: number;
         user: Required<TypeUser>
       }
-      pr().then(() => {
-        console.log("isMainThread: ", isMainThread)
-        // console.log('worker db', db)
-        return runAlgorithm(configId, config, user._id, db)
-      })
-        .then(({ run, error }: any) => {
+      pr().then(async () => {
+        const result = []
+        console.log(`Will run ${numberOfRuns} jobs`)
+        for (let i = 0; i < numberOfRuns; i++) {
+          console.log(`Running job number ${i+1}`)
+          const { run, error } = await runAlgorithm(configId, config, user._id, db)
           // Once the task is done, send a message back to the main thread
           const m = JSON.stringify({
             message: 'Task completed',
             run, error
           })
           parentPort ? parentPort.postMessage(m) : console.log('parentPort not available')
-        })
+        }
+      })
         .catch((error: Error) => {
           Trail.logError({
             module: __filename,

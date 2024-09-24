@@ -1,5 +1,4 @@
 import { Types } from "mongoose";
-import { TypeConfig } from "./Config";
 
 export interface TypeRun {
   no: number;
@@ -13,6 +12,13 @@ export interface TypeRun {
   temperature: number;
   steamToCarbonRatio: number;
   numberOfGenerationsRan: number;
+  generations: {
+    error: number,
+    hydrogen: number,
+    methane: number,
+    CO: number,
+    CO2: number,
+  }[],
   stopCondition: string;
   timeTaken: string;
   error: number,

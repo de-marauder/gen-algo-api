@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import ErrorBoundary, { ErrorResponse } from '../../helpers/ErrorBoundary';
 import { ConfigModel } from '../../models/Config';
-import { UserModel } from '../../models/User';
 import { TypeUser } from '../../lib/Types/user';
+import Trail from '../../services/Logger';
 
 export const getOneConfig = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  res, req, next,
+  res, req,
   cb: async () => {
     const user = req.body._user as TypeUser;
     const configId = req.params.configId as string;
@@ -25,7 +25,7 @@ export const getOneConfig = (req: Request, res: Response, next: NextFunction) =>
 
 export const getManyConfig = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  res, req, next,
+  res, req,
   cb: async () => {
     const user = req.body._user as TypeUser;
     const query: {
@@ -35,6 +35,7 @@ export const getManyConfig = (req: Request, res: Response, next: NextFunction) =
     }
 
     const configs = await ConfigModel.find(query).catch((error) => {
+      Trail.logError(error);
       throw new ErrorResponse({ errorCode: 'CONFIG_NOT_FOUND', message: 'Error while getting configurations' })
     });
     if (configs.length < 1) throw new ErrorResponse({ status: 'success', code: 200, message: `${user.username} has no configurations set`, errorCode: 'CONFIG_NOT_FOUND', data: [] })

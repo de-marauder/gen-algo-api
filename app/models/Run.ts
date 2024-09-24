@@ -1,8 +1,6 @@
-import mongoose, { Schema, model } from 'mongoose';
-import { ErrorResponse } from '../helpers/ErrorBoundary';
+import { Schema, model } from 'mongoose';
 import { TypeRun } from '../lib/Types/runs';
 import { db, waitForDB } from '../config/db';
-import { pr } from '../helpers/promise';
 
 const RunSchema = new Schema<TypeRun>(
   {
@@ -47,6 +45,16 @@ const RunSchema = new Schema<TypeRun>(
     numberOfGenerationsRan: {
       required: true,
       type: Number
+    },
+    generations: {
+      required: true,
+      type: [{
+        error: Number,
+        hydrogen: Number,
+        methane: Number,
+        CO: Number,
+        CO2: Number,
+      }]
     },
     stopCondition: String,
     timeTaken: String,

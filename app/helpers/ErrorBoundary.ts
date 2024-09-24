@@ -25,6 +25,17 @@ const ErrorBoundary = async ({ module, req, res, next, cb, type }: Args) => {
           res.message = 'SUCCESS'
           res.controllerModule = module
           if (next) next()
+          else {
+            Trail.logResponse({
+              module: res.controllerModule || __filename,
+              message: res.message || 'PATH_NOT_FOUND',
+              method: req.method,
+              code: res.statusCode,
+              path: req.originalUrl,
+              host: req.hostname,
+              protocol: req.protocol
+            })
+          }
         })
           .catch((error) => {
             res.message = (error as ErrorResponse).errorCode
@@ -37,6 +48,17 @@ const ErrorBoundary = async ({ module, req, res, next, cb, type }: Args) => {
           res.message = 'SUCCESS'
           res.controllerModule = module
           if (next) next()
+          else {
+            Trail.logResponse({
+              module: res.controllerModule || __filename,
+              message: res.message || 'PATH_NOT_FOUND',
+              method: req.method,
+              code: res.statusCode,
+              path: req.originalUrl,
+              host: req.hostname,
+              protocol: req.protocol
+            })
+          }
         })
           .catch((error) => {
             res.message = (error as ErrorResponse).errorCode
@@ -49,6 +71,17 @@ const ErrorBoundary = async ({ module, req, res, next, cb, type }: Args) => {
               res.message = 'SUCCESS';
               res.controllerModule = module;
               if (next) next()
+              else {
+                Trail.logResponse({
+                  module: res.controllerModule || __filename,
+                  message: res.message || 'PATH_NOT_FOUND',
+                  method: req.method,
+                  code: res.statusCode,
+                  path: req.originalUrl,
+                  host: req.hostname,
+                  protocol: req.protocol
+                })
+              }
             })
               .catch((error) => {
                 res.message = (error as ErrorResponse).errorCode
@@ -124,5 +157,18 @@ const respondOnError = ({
     type: (error as ErrorResponse).errorCode || 'INTERNAL_SERVER_ERROR',
     metadata: error,
     db
+  })
+}
+
+export const errorHandler = (req: Request, res: CustomResponse, next: NextFunction) => {
+  res.status(404).json({ message: `This path ${req.originalUrl} does not exist` })
+  Trail.logResponse({
+    module: res.controllerModule || __filename,
+    message: res.message || 'PATH_NOT_FOUND',
+    method: req.method,
+    code: res.statusCode,
+    path: req.originalUrl,
+    host: req.hostname,
+    protocol: req.protocol
   })
 }

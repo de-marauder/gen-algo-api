@@ -3,11 +3,13 @@ import { authRouter, userRouter } from "./user";
 import { configRouter } from "./config";
 import { runsRouter } from "./runs";
 import { notesRouter } from "./notifications";
+import { errorHandler } from "../helpers/ErrorBoundary";
 
-export const baseRouter = Router({mergeParams: true});
+export const baseRouter = Router({ mergeParams: true });
 
 baseRouter.use('/auth', authRouter);
 baseRouter.use('/user', userRouter);
 baseRouter.use('/configs', configRouter);
 baseRouter.use('/runs', runsRouter);
 baseRouter.use('/notifications', notesRouter);
+baseRouter.use('/*', errorHandler);

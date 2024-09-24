@@ -7,7 +7,7 @@ import { db, loadModels, waitForDB } from './app/config/db';
 import { baseRouter } from './app/routes';
 import Trail from './app/services/Logger';
 import { pr } from './app/helpers/promise';
-import { CustomResponse } from './app/helpers/ErrorBoundary';
+import { CustomResponse, errorHandler } from './app/helpers/ErrorBoundary';
 
 process.on('uncaughtException', (error) => {
   Trail.logError({ message: error.message || 'Uncaught Exception', module: __filename, type: 'UNCAUGHT_EXCEPTION', metadata: error, db })
@@ -25,7 +25,7 @@ const reqLogger = (req: Request, res: Response, next: NextFunction) => {
   // console.log(req)
   Trail.logRequest({
     method: req.method,
-    path: req.baseUrl,
+    path: req.originalUrl,
     host: req.hostname,
     protocol: req.protocol,
     from: req.ip
@@ -40,7 +40,7 @@ const resLogger = async (req: Request, res: CustomResponse) => {
       message: res.message || 'PATH_NOT_FOUND',
       method: req.method,
       code: res.statusCode,
-      path: req.baseUrl,
+      path: req.originalUrl,
       host: req.hostname,
       protocol: req.protocol
     })
@@ -52,17 +52,7 @@ app.use('/api/health', reqLogger, (_, res) => res.send('ok'));
 
 app.use('/api', reqLogger, baseRouter, resLogger);
 
-app.use((_, res) => {
-  res.status(500).json({
-    status: 'failed',
-    message: 'erro occured'
-  })
-});
-
-app.all('*', reqLogger, (req: Request, res: Response, next: NextFunction) => {
-  res.status(404).end(`This path ${req.path} does not exist`)
-  next()
-}, resLogger)
+app.all('*', reqLogger, errorHandler)
 
 
 pr()

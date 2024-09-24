@@ -5,7 +5,7 @@ import { TypeUser } from "../../lib/Types/user";
 
 export const getByUser = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  req, res, next,
+  req, res,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>
 
@@ -21,7 +21,7 @@ export const getByUser = (req: Request, res: Response, next: NextFunction) => Er
 })
 export const getAll = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  req, res, next,
+  req, res,
   cb: async (req, res) => {
 
     const { data, error } = await getAllNotifications()
@@ -37,7 +37,7 @@ export const getAll = (req: Request, res: Response, next: NextFunction) => Error
 
 export const deleteOne = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  req, res, next,
+  req, res,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>
     const noteId = req.params.noteId as string
@@ -55,7 +55,7 @@ export const deleteOne = (req: Request, res: Response, next: NextFunction) => Er
 
 export const deleteMany = (req: Request, res: Response, next: NextFunction) => ErrorBoundary({
   module: __filename,
-  req, res, next,
+  req, res,
   cb: async (req, res) => {
     const user = req.body._user as Required<TypeUser>
 
