@@ -46,11 +46,7 @@ export class Population {
 
   // Sorts individuals in population according to their fitness in place
   orderAccordingToFitness(population: SMRIndividual[]): void {
-    // console.log('unordered pop: ', population.map((el)=>el.fitness))
-    population.sort((a, b) => {
-      return b.fitness - a.fitness;
-    });
-    // console.log('ordered pop: ', population.map((el)=>el.fitness))
+    population.sort((a, b) =>  b.fitness - a.fitness);
   }
 
   // Checks if the fitness of all individuals are same

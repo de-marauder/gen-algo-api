@@ -74,31 +74,47 @@ export class SMRGeneticsAlgorithm {
 
   // Selects two Individuals to mate for crossover
   // Selection favours better fit individuals in the population
-  selectIndividuals(): {
-    individualA: SMRIndividual;
-    individualB: SMRIndividual;
-  } {
-    // Selection will be based on two modes with 50% probability of either
-    // Mode 1: Tournament Selection
-    // Mode 2: Biased Roulette Selection
-    const probability = Math.random();
+  selectIndividuals() {
+    // Adaptive probabilities based on generation progress
+    const progress = this.generations.length / this.config.genSize;
+    const tournamentProb = 0.3 + 0.4 * progress; // Increases over time
+    const biasedRouletteProb = 0.4 - 0.2 * progress; // Decreases over time
+    // Standard roulette takes the remaining probability
+
+    const rand = Math.random();
 
     let individualA: SMRIndividual;
     let individualB: SMRIndividual;
-    if (probability > 0.5) {
-      // Do tournament selection
-      individualA = this.tournamentSelection();
-      individualB = this.tournamentSelection();
-      while (individualA === individualB)
-        individualB = this.tournamentSelection();
-    } else {
-      // Do biased roulette selection
+
+    if (rand < tournamentProb + biasedRouletteProb) {
       individualA = this.biasedRouletteSelection();
       individualB = this.biasedRouletteSelection();
-      while (individualA === individualB)
-        individualB = this.biasedRouletteSelection();
+    } else if (rand < tournamentProb) {
+      individualA = this.tournamentSelection();
+      individualB = this.tournamentSelection();
+    } else {
+      individualA = this.standardRouletteSelection();
+      individualB = this.standardRouletteSelection();
     }
+
+    // Ensure individuals are different
+    while (individualA === individualB) {
+      individualB = this.selectRandomMethod();
+    }
+
     return { individualA, individualB };
+  }
+
+  // Helper method to select a random selection method
+  private selectRandomMethod(): SMRIndividual {
+    const rand = Math.random();
+    if (rand < 0.33) {
+      return this.tournamentSelection();
+    } else if (rand < 0.66) {
+      return this.biasedRouletteSelection();
+    } else {
+      return this.standardRouletteSelection();
+    }
   }
 
   // Implements the tournament selection procedure
@@ -127,7 +143,7 @@ export class SMRGeneticsAlgorithm {
   // A probability distribution is created based on the fitness of each individual
   // A cummulation of the distribution is evaluated
   // An individual is then selected randomly from the cummulated probability distribution
-  biasedRouletteSelection(): SMRIndividual {
+  standardRouletteSelection(): SMRIndividual {
     const fitnessArr = this.population.population.map(el => el.fitness);
     // Since higher fitness values is preferred
     // we just take the quotient of the fitness and sum of fitnesses
@@ -148,26 +164,79 @@ export class SMRGeneticsAlgorithm {
         return this.population.population[i];
       }
     }
-    throw new Error(
-      'Biased roulette selection could not select an individual'
+    // If we reach here due to floating-point precision issues,
+    // return the last individual
+    return this.population.population[this.population.population.length - 1];
+  }
+
+  biasedRouletteSelection(): SMRIndividual {
+    // Sort the population by fitness in descending order and get their ranks
+    const rankedPopulation = this.population.population
+      .map((individual, index) => ({ individual, fitness: individual.fitness }))
+      // .sort((a, b) => b.fitness - a.fitness)
+      .map((item, index) => ({ ...item, rank: index + 1 }));
+
+    const populationSize = rankedPopulation.length;
+
+    // Calculate rank-based selection probabilities
+    // Using a linear ranking: P(rank) = (2-s)/N + 2*rank*(s-1)/(N*(N-1))
+    // where s is the selection pressure (usually between 1.0 and 2.0)
+    const s = 1.5; // Adjust this value to change selection pressure
+    const rankProbabilities = rankedPopulation.map(({ rank }) =>
+      (2 - s) / populationSize + 2 * rank * (s - 1) / (populationSize * (populationSize - 1))
     );
+
+    // Calculate cumulative probabilities
+    const cumulativeProbabilities: number[] = [];
+    let cumulativeSum = 0;
+    for (const probability of rankProbabilities) {
+      cumulativeSum += probability;
+      cumulativeProbabilities.push(cumulativeSum);
+    }
+
+    // Select an individual using the cumulative probabilities
+    const randProb = Math.random();
+    let i = 0;
+    for (; i < cumulativeProbabilities.length; i++) {
+      if (cumulativeProbabilities[i] > randProb) {
+        return rankedPopulation[i].individual;
+      }
+    }
+
+    // If we reach here due to floating-point precision issues,
+    // return the last individual
+    return this.population.population[this.population.population.length - 1];
+  }
+
+  getMutationProbability(): number {
+    const probability = 1 - this.getCrossOverProbability();
+    return probability
+  }
+
+  getCrossOverProbability(): number {
+    const probability = (this.generations.length / this.config.genSize);
+    return probability
   }
 
   // Combines two individual's traits to form a new individual
   // Mode 1: Averaging
   // Mode 2: random selection of certain traits
-  // Mode 3:
   crossover(
     individualA: SMRIndividual,
     individualB: SMRIndividual
   ): SMRIndividual {
+    // const crossOverProbability = this.getCrossOverProbability()
+    const crossOverProbability = 2
+
+    // If the crossover probability is not met, return the better individual
+    if (crossOverProbability < Math.random()) {
+      if (individualA.fitness > individualB.fitness) return individualA
+      else return individualB
+    }
     const modeSelectorProbabilty = Math.random();
     if (modeSelectorProbabilty > 0.5) {
       // Do Mode 1
-      return this.crossOverByRandomBiasedAveraging(
-        individualA,
-        individualB
-      );
+      return this.crossOverByRandomBiasedAveraging(individualA, individualB);
     } else {
       // Do mode 2
       return this.crossOverByRandomSelection(individualA, individualB);
@@ -336,10 +405,14 @@ export class SMRGeneticsAlgorithm {
     return newIndividual;
   }
 
-  // Evalutes whether mutation should occur based on a 2% probability
   willMutate(): boolean {
-    const n = getRandomNumberInRange(0, 100);
-    return +n.toFixed(0) <= this.config.mutationProbability;
+    const rand = getRandomNumberInRange(0, 100);
+    // const mutatationProbability = this.getMutationProbability()
+
+    // If the mutation probability is not met, return false
+    // Otherwise, return true
+    // return +rand.toFixed(0) <= mutatationProbability;
+    return +rand.toFixed(0) <= this.config.mutationProbability;
   }
 
   // eveluates stopping criteria

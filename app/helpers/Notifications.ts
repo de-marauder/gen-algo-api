@@ -1,5 +1,3 @@
-import { Document, Types } from "mongoose";
-import { TypeRun } from "../lib/Types/runs";
 import { NotificationEvent } from "../services/Notification/Notifications";
 import { TypeUser } from "../lib/Types/user";
 import { env } from "./env";
@@ -15,6 +13,7 @@ export const sendRunNotif = (
   } | undefined | null,
   user: Required<TypeUser>
 ) => {
+  if (!user.fcmToken) return
   if (error) {
     const errorMessage = `An error occured while processing your run.\n${error.message}`
     Trail.logError({

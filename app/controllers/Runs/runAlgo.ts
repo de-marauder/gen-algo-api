@@ -1,4 +1,3 @@
-import { RunModel } from "../../models/Run";
 import { runAlgo } from "../../lib/runAlgo";
 import { AlgoResult, Config } from "../../lib/Types/algo";
 import { SMRGeneticsAlgorithm } from "../../lib/Algorithm/SMR";

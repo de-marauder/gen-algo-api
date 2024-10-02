@@ -134,6 +134,7 @@ const respondOnError = ({
       message: error.message,
       errorCode: error.errorCode,
       status: error.status,
+      data: error.data
     })
   }
 

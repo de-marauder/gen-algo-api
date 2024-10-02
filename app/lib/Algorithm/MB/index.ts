@@ -74,13 +74,10 @@ export class MBGeneticsAlgorithm {
 				if (counter <= 50) {
 					individualB = this.biasedRouletteSelection();
 				}
-				else if (counter > 50) {
+				else if (counter < 100) {
 					individualB = this.tournamentSelection();
 				}
-				else if (counter > 100) {
-					// console.log('Same individuals picked', individualA, individualB)
-					// console.log(this.population.population)
-					// console.log(this.population.population.length)
+				else {
 					throw Error('Biased roulette failed to select')
 				}
 				counter++
@@ -141,18 +138,10 @@ export class MBGeneticsAlgorithm {
 				return this.population.population[i];
 			}
 		}
-		// console.log('fitnessArr: ', fitnessArr)
-		// console.log('sum: ', sum)
-		// console.log('sum2: ', sum2)
-		// console.log('randProb: ', randProb)
-		// console.log('probabilityDistribution: ', probabilityDistribution)
-		// console.log('probabilityDistribution2: ', probabilityDistribution2)
-		// console.log('cummulatedProbabilityDistribution: ', cummulatedProbabilityDistribution)
-		throw new Error(
-			'Biased roulette selection could not select an individual'
-		);
-	}
 
+		// Fallback to last individual in case of numerical precision issues
+		return this.population.population[this.population.population.length - 1];
+	}
 	// Combines two individual's traits to form a new individual
 	// Mode 1: Averaging
 	// Mode 2: random selection of certain traits

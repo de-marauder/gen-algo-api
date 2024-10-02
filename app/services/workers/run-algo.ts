@@ -22,7 +22,6 @@ try {
         user: Required<TypeUser>
       }
       pr().then(async () => {
-        const result = []
         console.log(`Will run ${numberOfRuns} jobs`)
         for (let i = 0; i < numberOfRuns; i++) {
           console.log(`Running job number ${i+1}`)
